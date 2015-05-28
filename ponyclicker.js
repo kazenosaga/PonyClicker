@@ -5,7 +5,9 @@ var ponyclicker = (function(){
   Math.log10 = Math.log10 || function(x) {
     return Math.log(x) / Math.LN10;
   };
+
   
+
   var $ponyversion = {major:0,minor:90,revision:0};
       
   function CreateGame() {
@@ -22,6 +24,7 @@ var ponyclicker = (function(){
       achievements:{}, // List of achievements as an object that we pretend is a hash.
       achievementcount:0, // We can't efficiently count properties so we store a length ourselves.
       muffins:0, // total number of muffins gained from achievements.
+
       store:[1,0,0,0,0,0,0,0,0,0,0,0,0], // amount player has bought of each store item.
       ponyList:genPonyList(), // precalculated list of randomized ponies (so we can reconstruct them after a save/load)
       pinkies:[], // list of smiles siphoned by rampaging pinkies
@@ -62,7 +65,7 @@ var ponyclicker = (function(){
         Game = g;
         break;
       default:
-        alert('Unrecognized version! Game not loaded.');
+        alert('Неопознанная версия! Невозможно загрузить игру.');
     }
   }
 
@@ -96,23 +99,29 @@ var ponyclicker = (function(){
     return list;
   }
   
+
+
+
   //
   // -------------------------------- Store definitions --------------------------------
   //
   var Store = [
-    {cost:function(n) {},name:"Pony", plural: "ponies", desc: "This is a pony. Ponies need friendships to generate smiles.", img: function(n){ return 'ponies/'+PonyList[Game.ponyList[n]]+'.svg'; }},
-    {cost:function(n) {},name:"Friendship", plural: "friendships", desc: "A friendship between two ponies. You can't buy a friendship if everypony is friends with everypony else!", img: function(n){ return 'store/hoofbump.svg'; } },
-    {cost:function(n) {},name:"Recital", plural: "recitals", desc: "A small recital for everypony you know.", formula: "Generates one smile per pony.<i>SPS = P</i>", img: function(n){ return 'store/cello.svg'; }}, // P
-    {cost:function(n) {},name:"Party", plural: "parties", desc: "Throw a party for all your friends!", formula: "Generates one smile per friendship.<i>SPS = F</i>", img: function(n){ return 'store/balloon.svg'; }}, // F
-    {cost:function(n) {},name:"Parade", plural: "parades", desc: "Throw a big parade for everypony and all their friends!", formula: "Generates one smile for each friendship and each pony.<i>SPS = P&plus;F</i>", img: function(n){ return 'store/trixie_wagon.svg'; }}, // P+F
-    {cost:function(n) {},name:"Concert", plural: "concerts", desc: "Throw a concert for the whole town!", formula: "Generates one smile for every pony, friendship, recital, party, and parade you have.<i>SPS = P&plus;F&plus;Recitals&plus;Parties&plus;Parades</i>", img: function(n){ return 'store/octavia_cutiemark.svg'; }}, // P+F+Recitals+Parties+Parades
-    {cost:function(n) {},name:"Festival", plural: "festivals", desc: "Celebrate a festival for a whole weekend!", formula: "Generates one smile for every pony you have, times the number of friendships you have.<i>SPS = P&times;F</i>", img: function(n){ return 'store/stage.png'; }}, // P*F
-    {cost:function(n) {},name:"Rave", plural: "raves", desc: "Throw a gigantic rave party in Canterlot!", formula: "Generates one smile for every pony, times the number of friendships, times the number of concerts.<i>SPS = P&times;F&times;Concerts</i>", img: function(n){ return 'store/turntable.png'; }}, // P*F*Concerts
-    {cost:function(n) {},name:"Grand Galloping Gala", plural: "grand galloping galas", desc: "Celebrate the Grand Galloping Gala with ponies from all over Equestria!", formula: "Generates one smile for every pony you have, times the number of friendships you have, times the number of parties and parades you have.<i>SPS = P&times;F&times;(Parties&plus;Parades)</i>", img: function(n){ return 'store/redhat.svg'; }}, //P*F*(Parties + Parades)
-    {cost:function(n) {},name:"Coronation", plural: "coronations", desc: "Make some random pony a princess so you have an excuse to party all night!", formula: "Generates one smile per pony, times your friendships, times your concerts, times your raves.<i>SPS = P&times;F&times;Concerts&times;Raves</i>", img: function(n){ return 'store/twilicorn_crown.svg'; }}, //P*F*Concerts*Raves
-    {cost:function(n) {},name:"National Holiday", plural: "national holidays", desc: "Declare a national holiday so everypony in equestria can party with you instead of being productive!", formula: "Generates one smile per pony, times your friendships, times your parades, times your festivals, times your coronations.<i>SPS = P&times;F&times;Parades&times;Festivals&times;Coronations</i>", img: function(n){ return 'store/calendar.svg'; }}, //P*F*Parades*Festivals*Coronations
-    {cost:function(n) {},name:"Elements Of Harmony", plural: "Elements of Harmony", desc: "Use a giant rainbow friendship beam to solve all your problems!", formula: "Generates one smile per pony, times the number of friendships you have, times an exponential function of the fourth root of your friendships times the number of buildings you have.<i>SPS = P&times;F&times;exp((F*B)<sup>&frac14</sup>)</i>", img: function(n){ return 'store/'+ElementList[n%ElementList.length]+'.svg'; }}, //P*F*exp((F*B)^1/4)
+    {cost:function(n) {},name:"Пони", plural: "пони", desc: "Это пони. Чтобы генерировать улыбки, пони нужны дружбы.", img: function(n){ return 'ponies/'+PonyList[Game.ponyList[n]]+'.svg'; }},
+    {cost:function(n) {},name:"Дружба", plural: "дружб", desc: "Дружба между двумя пони. Новую дружбу купить нельзя, если все уже дружат друг с другом!", img: function(n){ return 'store/hoofbump.svg'; } },
+    {cost:function(n) {},name:"Выступление", plural: "выступлений", desc: "Небольшое выступление для своих друзей.", formula: "Генерирует по одной улыбке за пони.<i>УВС = П</i>", img: function(n){ return 'store/cello.svg'; }}, // P
+    {cost:function(n) {},name:"Вечеринка", plural: "вечеринок", desc: "Устроить вечеринку для всех друзей!", formula: "Генерирует по одной улыбке за каждую дружбу.<i>УВС = Д</i>", img: function(n){ return 'store/balloon.svg'; }}, // F
+    {cost:function(n) {},name:"Парад", plural: "парадов", desc: "Организовать грандиозный парад для всех друзей и их друзей!", formula: "Генерирует по одной улыбке за каждую пони и дружбу.<i>УВС = П&plus;Д</i>", img: function(n){ return 'store/trixie_wagon.svg'; }}, // P+F
+    {cost:function(n) {},name:"Концерт", plural: "концертов", desc: "Устроить концерт для всего города!", formula: "Генерирует по одной улыбке за каждую пони, дружбу, выступление, вечеринку и парад.<i>УВС = П&plus;Д&plus;Выступления&plus;Вечеринки&plus;Парады</i>", img: function(n){ return 'store/octavia_cutiemark.svg'; }}, // P+F+Recitals+Parties+Parades
+    {cost:function(n) {},name:"Фестиваль", plural: "фестивалей", desc: "Устроить фестиваль на все выходные!", formula: "Генерирует по одной улыбке на каждую пони умножить на количество дружб.<i>УВС = П&times;Д</i>", img: function(n){ return 'store/stage.png'; }}, // P*F
+    {cost:function(n) {},name:"Дискотека", plural: "дискотек", desc: "Устроить дискотеку, чтобы танцевал весь Кантерлот!", formula: "Генерирует по одной улыбке за каждую пони умножить на количество дружб умножить на количество концертов.<i>УВС = П&times;Д&times;Концерты</i>", img: function(n){ return 'store/turntable.png'; }}, // P*F*Concerts
+    {cost:function(n) {},name:"Грандиозный Гала-Концерт", plural: "грандиозных гала-концертов", desc: "Устроить грандиозный гала-концерт и пригласить пони со всей Эквестрии!", formula: "Генерирует по одной улыбке за каждую пони умножить на количество дружб умножить на количество вечеринок и парадов.<i>УВС = П&times;Д&times;(Вечеринки&plus;Парады)</i>", img: function(n){ return 'store/redhat.svg'; }}, //P*F*(Parties + Parades)
+    {cost:function(n) {},name:"Коронация", plural: "коронаций", desc: "Сделать кого-нибудь принцессой, чтобы был повод гулять всю ночь!", formula: "Генерирует по одной улыбке за каждую пони умножить на количество дружб умножить на количество концертов умножить на количество дискотек.<i>УВС = П&times;Д&times;Концерты&times;Дискотеки</i>", img: function(n){ return 'store/twilicorn_crown.svg'; }}, //P*F*Concerts*Raves
+    {cost:function(n) {},name:"Государственный праздник", plural: "государственных праздников", desc: "Объявить государственный праздник, чтобы каждая пони в Эквестрии могла отрываться вместе с вами, а не заниматься полезными вещами!", formula: "Генерирует по одной улыбке за каждую пони умножить на количество дружб умножить на количество парадов умножить на количество фестивалей умножить на количество коронаций.<i>УВС = П&times;Д&times;Парады&times;Фестивали&times;Коронации</i>", img: function(n){ return 'store/calendar.svg'; }}, //P*F*Parades*Festivals*Coronations
+    {cost:function(n) {},name:"Элементы гармонии", plural: "элементов гармонии", desc: "Решите все свои проблемы одним залпом огромного радужного луча дружбы!", formula: "Генерирует по одной улыбке за каждую пони умножить на количество дружб умножить на экспоненту корня четвертой степени от произведения количества дружб и зданий.<i>УВС = П&times;Д&times;exp((Д*З)<sup>&frac14</sup>)</i>", img: function(n){ return 'store/'+ElementList[n%ElementList.length]+'.svg'; }}, //P*F*exp((F*B)^1/4)
   ];
+
+
+
 
   function factorial(n) { var r = n; while(--n > 1) { r = r*n; } return r; }
   function factorial_limit(n,k) { var r = n; while(--n > k) { r = r*n; } return r; }
@@ -210,7 +219,7 @@ var ponyclicker = (function(){
     //var muffins = Math.floor(inv_triangular(Game.totalsmiles/1000000000000))-1;
     //Game.muffins += muffins;
     //ShowNotice("Game reset", ((muffins==0)?null:"You get <b>" + Pluralize(muffins, " muffin") + "</b> for your <b>" + Pluralize(Game.totalsmiles, " smile") + "</b>"), null);
-    ShowNotice("Game Reset", "Muffin prestige has been temporarily disabled, sorry!");
+    ShowNotice("Сброс игры", "Извините, некоторые бонусы за маффины временно отключены!");
     Game.legacysmiles += Game.totalsmiles;
     Game.legacyclicks += Game.clicks;
     Game.resets += 1;
@@ -226,6 +235,7 @@ var ponyclicker = (function(){
     InitializeGame();
   }
   function WipeAllData() { localStorage.removeItem('game'); Game = CreateGame(); InitializeGame(); }
+
   function ImportGame(src) {
     ParseGame(src);
     InitializeGame();
@@ -285,92 +295,99 @@ var ponyclicker = (function(){
     // These are specific smile count related messages
     if(Game.totalsmiles < 30) {
       news.push(
-        "Ponyville down in the dumps, reports anonymous bystander.",
-        "Ponyville reports distinct lack of smiles.",
-        "Smile forecast for today: Depression with a touch of despair.",
-        "Ponyville in desperate need of excitement.",
-        "Antidepressants selling out all across Ponyville.",
-        "Mayor Mare asked why everyone is feeling so down, reports she can't be bothered to figure it out."
+		"В Понивилле все как в воду опущенные, отмечает случайный прохожий.",
+        "В Понивилле обнаружен катастрофический дефицит улыбок.",
+        "Прогноз по улыбкам на сегодня: отчаяние с шансом депрессии.",
+        "Понивилль срочно необходимо встряхнуть.",
+        "По всему Понивиллю с прилавков сметают антидепрессанты.",
+        "На вопрос, почему Понивилль утопает в унынии, Мэр ответила, что ей сейчас не до того."
       );
     } else if(Game.totalsmiles < 1000) {
-      news.push("Ponyville citizens wonder what this strange new sensation is! Scientists call it 'smiling', conspiracy theorists denounce it as a ploy to take over the world.",
-        "Morose ponies increasingly out of place in chipper Ponyville!",
-        "Small foals spotted playing in the streets! Parents unsure if so called 'fun' should be allowed.",
-        "Chef proposes selling 'baked goods' instead of 'baked okays'. Customers wary of new marketing scam.");
-    } else if(Game.totalsmiles < 1000000) {
-      news.push("Ponies greeting each other with a smile! Cranky old ponies decry new development!",
-        "Iron Will now teaching assertiveness instead of methods of coping with depression!",
-        "Several young colts spotted hoofbumping! Parents concerned over new trend!",
-        "Therapist upset about recent mood upswing, says it's bad for business.");
-    } else if(Game.totalsmiles < 1000000000) {
-      news.push("Songs now spontaneously erupting across Ponyville!",
-      "Ponyville voted happiest town in equestria!",
-      "Ponies from all over Equestria come to visit Ponyville!");
+      news.push("Жители Понивилля восхищаются новым состоянием сознания! Учеными выдвинут термин «Улыбка». Конспирологи утверждают, что это заговор с целью захвата мира.",
+        "Все больше и больше пони чувствуют, что с ними творится что-то непонятное!",
+        "На улицах города были замечены играющие жеребята! Родителями обсуждается вопрос о запрете так называемого «веселья».",
+        "Небольшой магазинчик начинает продавать «сдобные вкусности» вместо «сдобных нормальностей». Покупатели опасаются маркетинговой аферы.");
+    
+	
+	} else if(Game.totalsmiles < 1000000) {
+      news.push("Пони на улицах улыбаются друг другу! Городские старейшины осуждают новую моду.",
+        "Айрон Вилл перешел на тренинги по самоутверждению вместо тренингов по борьбе с депрессией!",
+        "Молодежь при встрече стукается копытами! Родители озабочены новым трендом!",
+        "Местный психиатр недоволен всеобщим подъемом настроения, жалуется на отток клиентов.");
+    
+	} else if(Game.totalsmiles < 1000000000) {
+      news.push("По всему Понивиллю тут и там спонтанно запеваются песни!",
+      "Понивилль признан самым счастливым местом в Эквестрии!",
+      "Пони по всей Эквестрии стремятся попасть в Понивилль!");
     } else if(Game.totalsmiles < 1000000000000) {
       news.push(
-        "Princess Twilight found overdosed on friendship, taken to rehab center!",
-        "Citizens of Ponyville so happy they invent new word for it! Debates about how to spell it immediately turn into murderous riots!");
+        "Принцесса Твайлайт обнаружена дома с передозировкой дружбой, отправлена на реабилитацию!",
+        "Жители Понивилля так счастливы, что придумали для этого новое слово! Дебаты о его правильном написании вскоре переросли в уличные беспорядки!");
     } else if(Game.totalsmiles < 1000000000000000) {
-      news.push("Ponyville citizens diagnosed with chronic happiness! Doctors unsure if it's actually a problem or not!");
+
+      news.push("Жители Понивилля страдают от хронического счастья! Доктора не могут определить, в чем тут проблема!");
     } else if(Game.totalsmiles < 1000000000000000000) {
-      news.push("Scientists split friendship and discover a runaway chain reaction! Nuclear friendship bomb proposed by military!");
+
+      news.push("Ученым удалось расщепить дружбу и обнаружить цепную реакцию! Армия начинает разработку дружбомбы!");
     } else {
-      news.push("New system of physics suggests all matter in universe composed of different kinds of smiles!");
+
+      news.push("Новая физическая теория доказывает, что вся материя состоит из разного рода улыбок!");
     }
+
 
     // After 10000 smiles we start putting in most of the standard news messages into rotation.
     if(Game.totalsmiles > 10000) {
-      news.push(
-        'Twilight found shipping Rainbow Dash with everything in the universe! Riots erupt all across Equestria!',
-        'Lyra and BonBon revealed as "just friends"! Ponies everywhere faint in shock! Octavia and Vinyl Scratch refuse to comment.',
-        "Celestia's insatiable desire for cake causes caketastrophe in the Royal Kitchen! A memorial service for the lost chocolate chips to be held on Monday.",
-        "Pink menace at Sugarcube corner goes batty, takes 15 muffins hostage!",
-        "Citizens of Ponyville vote to create a public library instead of relying on a private collection organized by a crazed purple mare!",
-        "Small colt finds lost Apple barn floating in space. Rainbow Dash claims she has no idea how it got up there.",
-        "Rarity joins environmentalists, declares she will no longer go to the spa. Ponyville's spa immediately goes bankrupt.",
-        "Following an incident involving mislabeled sodium and an exploding toilet, Celestia orders Sweetie Bot to register herself as a lethal weapon.",
-        "Rainbow Dash reportedly investing in the Cloud. Pegasi everywhere confused by what this means.",
-        "Princess Twilight discovers that ponies are actually tiny nuclear reactors! \"That explains why I never need to go to the bathroom,\" says Rainbow Dash.",
-        "Pony pony Pony pony pony pony Pony pony!",
-        "Princess Twilight Sparkle dating a peach! The peach has no comment on the matter.",
-        'Doctor Whooves bumps into himself. Ponyville citizens worried that there will be "No more."',
-        'Big Mac and Smarty Pants have deep philosophical conversations. When asked what he sounds like, Smarty Pants refused to comment.',
-        'Apple Bloom found in shock on the edge of the Everfree Forest; says she visited a village of ponies with no Cutie Marks.',
-        'Applejack finds golden apple. Looks away awkwardly and quickly changes the subject when asked how she found it.',
-        'Pinkie Pie found running around Ponyville, proclaiming "Our lives aren\'t reality and that we\'re just a bunch of animated characters on a TV show meant for the entertainment of others!"'
+      news.push('Твайлайт шипит Рейнбоу Дэш со всем в Эквестрии! В стране назревает восстание!',
+        'Лира и Бон-Бон заявляют, что они «просто друзья»! Пони по всей стране шокированы!',
+        "Тяга Селестии к тортам оборачивается катастрофой на королевской кухне! Панихида по безвременно усопшей шоколадной стружке состоится в понедельник.",
+        "Розовый смертник в Сахарном уголке окончательно свихнулся! В заложниках 15 маффинов!",
+        "Граждане Понивилля голосуют за создание общественной библиотеки, чтобы больше не полагаться на частную коллекцию чокнутой фиолетовой кобылы!",
+        "Жеребенок обнаруживает пропавший сарай семьи Эпплов в открытом космосе. Рейнбоу Дэш отрицает все обвинения.",
+        "Рэрити вступает в ряды защитников окружающей среды, отказывается от посещения СПА-салона. СПА-салон разоряется.",
+        "После инцидента с натрием не в той банке и взрывающимся унитазом Свити Бот обязана зарегистрировать себя как оружие массового поражения.",
+        "Рейнбоу Дэш продолжает инвестировать в облачные сервисы. Остальные пегасы понятия не имеют, что это вообще такое.",
+        "Принцесса Твайлайт выясняет, что на самом деле пони — это маленькие ядерные реакторы! «Это объясняет, почему я никогда не хожу в туалет», — комментирует Рейнбоу Дэш.",
+        "Пони пони Пони пони пони пони Пони пони!",
+        "Принцесса Твайлайт встречается с персиком! Персик комментировать ситуацию отказался.",
+        'Доктор Хувс сталкивается с самим собой. Жители Понивилля в страхе ожидают конца света.',
+        'Биг Мак и Смарти Пентс ведут глубокие филосовские беседы. На вопрос о том, как он может разговаривать, Смарти Пентс отказался отвечать.',
+        'Эппл Блум обнаружена в шоковом состоянии на окраине Вечносвободного леса; по ее словам, она наткнулась на деревню пони без кьютимарок.',
+        'Эпплджек нашла золотое яблоко. При вопросе о том, откуда оно взялось, она прячет глаза и меняет тему.',
+        'Пинки Пай в панике носится по Понивиллю и вопит, что «Вся наша жизнь — это просто выдуманный сюжет в мультике для маленьких детей!»"'
       );
 
       if(Game.muffins > 10) {
-        news.push(
-          'When asked how she saved the bakery from certain disaster, Derpy Hooves claims there was "Muffin to it!"',
-          "Try new smile-powered Muffins today!",
-          'Mayor held hostage by crazed Doctor, who demands that a muffin factory be built "for the sake of all ponykind!"',
-          'Derpy and Troubleshoes get married! Ponyville does not survive the wedding.',
-          'Scientists investigate whether excessive muffin consumption can lead to long, overbearing plots.',
-          'Rarity to design new fashion line for plus sized mares, claiming “Muffin tops are in fashion this season”.',
-          "Rainbow Dash to host new midnight release party for AK Yearling’s latest novel, ‘Daring Do and the Muffin Man of Azkaban’.",
-          "Fluttershy cancels bi-weekly critter picnic in exchange for new Muffin Social. Critters could not be reached for comment.",
-          "Applejack introduces apple-spice muffins, in attempt to reignite declining produce sales.",
-          "Twilight Sparkle under house arrest for magical mammal manipulation, for trying to cross a mouse with a muffin.",
-          "Pinkie Pie launches new re-branding of cupcakes as ‘dessert muffins’, meets with mixed results."
+        news.push('Дерпи Хувс чудом спасает пекарню от пожара; приписывает свою отвагу «Силе маффинов».',
+          "Попробуйте новые маффины со вкусом улыбок уже сегодня!",
+          'Безумный Доктор взял Мэра в заложники, требует построить фабрику маффинов «ради блага всего понячества»!',
+          'Дерпи выходит замуж за Траблшуз! Понивиль не переживает свадьбу.',
+          'Учеными изучается вопрос о влиянии маффинов на крупные сюжетные элементы.',
+          'Рэрити анонсирует новую линейку одежды для одаренных природой кобылок, комментирует: «Белье с маффинами — писк этого сезона».',
+          "Рейнбоу Дэш устраивает вечеринку в честь выхода нового романа А.К. Йерлинг, «Дэринг Ду и пекарь Азкабана».",
+          "Флаттершай отменяет традиционный пикник со зверушками и отправляется вместо этого на презентацию новых маффинов. Связаться со зверушками и услышать их коммментарии не удалось.",
+          "На фоне падающих продаж яблочной продукции Эпплджек выходит на рынок яблочных маффинов.",
+          "Твайлайт Спаркл орестована за магические эксперименты над животными — попытку скрестить мышь и маффин.",
+          "Пинки Пай проводит компанию по ребрендингу капкейков как «десертных маффинов», результаты оставляют желать лучшего."
         );
       }
       if(Game.muffins > 100) {
-        news.push('Derpy crashes into giant muffin. Irony is not amused.',
+
+        news.push('Дерпи врезается в огромный маффин. Такова ирония.',
         "Discord caught eating 40 muffins in one sitting, that’s as many as four 10’s, and that’s terrible.",
-          "Princess Celestia has eaten at least 37 muffins this year, when reached for comment, Princess Luna responded with ‘In a row?’.",
+          "Установлено, что Принцесса Селестия в этом году съела как минимум 37 маффинов. «Что, подряд?» — прокомментировала новость Принцесса Луна.",
           "Princess Cadence Announces that all muffins produced in the Crystal Empire now come with ‘Free Shipping’.  Her Highness then winked suggestively.",
-          "As muffin craze sweeps Equestria, Sapphire Shores to star in new musical, ‘My Little Muffin, Baked-goods are Magic’.",
-          "Diamond Tiara insists that her father has a bigger muffin collection than you, no matter how improbable that sounds.",
-          "New Poll from the Foal Free Press reveals that no food makes a young filly smile as much as a muffin.",
-          'Sugarcube Corner hold muffin bake sale. Ponyville mourns the loss of many ponies during the ensuring muffin frenzy.',
-          "Chrysalis returns! Says she's just buying muffins."
+          "На фоне захлестнувшей Эквестрию волны маффиннового безумия Сапфир Шорс выпускает новый мьюзикл, «Мои маленькие маффины: Выпечка это магия».",
+          "Даймонд Тиара утверждает, что у ее папы коллекция маффинов больше, чем у тебя, как бы неправдоподобно это ни звучало.",
+          "Опрос издания Фоал Фри Пресс показывает, что самые большие улыбки на лицах жеребят вызывают свежие маффины.",
+          'Сахарный Уголок устраивает распродажу маффинов. Понивилль скорбит по пропавшим без вести в очередях.',
+          "Кризалис возвращается! За маффинами."
           );
       }
       if(Game.muffins > 200) {
-        news.push('Send help. Trapped in Equestria, being forced to write silly news messages.'
+        news.push('Пришлите помошь! Застрял в Эквестрии, заставляют переводить какую-то муть.'
           );
       }
+
     }
 
     return news[GetRandNum(0, news.length)];
@@ -378,6 +395,8 @@ var ponyclicker = (function(){
   var newsnum = 0,
       newswait = 15000,
       lastNews;
+
+
 
   function UpdateNews() {
     var n2 = (newsnum + 1) % 2;
@@ -415,28 +434,29 @@ var ponyclicker = (function(){
   }
   
   var number_names = [
-  "million",
-  "billion",
-  "trillion",
-  "quadrillion",
-  "quintillion",
-  "sextillion",
-  "septillion",
-  "octillion",
-  "nonillion",
-  "decillion",
-  "undecillion",
-  "duodecillion",
-  "tredecillion",
-  "quattuordecillion", // This name is so long it breaks formatting in places :C
-  "quindecillion",
-  "sexdecillion",
-  "septendecillion",
-  "octodecillion",
-  "novendecillion",
-  "vigintillion"];
+    "миллион",
+  "миллиард",
+  "триллион",
+  "квадриллион",
+  "квинтиллион",
+  "секстиллион",
+  "септиллион",
+  "октиллион",
+  "нониллион",
+  "дециллион",
+  "ундециллион",
+  "додециллион",
+  "тредециллион",
+  "кваттоурдециллион",
+  "квиндециллион",
+  "седециллион",
+  "септдециллион",
+  "октодециллион",
+  "новемдециллион",
+  "вигинтиллион"];
   
   function PrettyNumStatic(x, fixed, display) {
+
     switch(display)
     {
     case 0:
@@ -444,7 +464,7 @@ var ponyclicker = (function(){
       if(d<6) return NumCommas(x);
       x = Math.floor(x/Math.pow(10,d-(d%3)-3));
       var n = Math.floor((d-3)/3) - 1;
-      if(n >= number_names.length) return "Infinity";
+      if(n >= number_names.length) return "Бесконечность";
       return (fixed?(x/1000).toFixed(3):(x/1000)) + " " + number_names[n];
     case 1:
       return NumCommas(Math.floor(x));
@@ -463,21 +483,48 @@ var ponyclicker = (function(){
     time = (time - t[2]) / 24;
     t[1] = time % 365;
     t[0] = (time - t[1]) / 365;
-    if (t[0] > 100) return "Centuries"; // more than 100 years
+    if (t[0] > 100) return "веков"; // more than 100 years
     for (var i = 3; i <= 4; i++) if (t[i] < 10) t[i] = "0" + t[i];
     var output = (t[2]>0?(t[2] + ":"):"") + t[3] + ":" + t[4];
-    if (t[1]) output = t[1] + " days and " + output;
-    if (t[0]) output = t[0] + " years, " + output;
+    if (t[1]) output = t[1] + " дней и " + output;
+    if (t[0]) output = t[0] + " лет, " + output;
     return output;
   }
   function Pluralize2(n, s, s2, fixed, display) { return PrettyNumStatic(n, fixed, display) + ((n==1)?s:s2); }
-  function Pluralize(n, s, fixed) { return Pluralize2(n, s, s + 's', fixed, Game.settings.numDisplay); }
+  function Pluralize(n, s, fixed) { return Pluralize2(n, s, s + '', fixed, Game.settings.numDisplay); }
   
+
+
   function gen_upgradetype1(item, pSPS, mSPS) { return function(sps, store) { sps.pStore[item] += pSPS*store[item]; sps.mStore[item] += mSPS*store[item]; return sps; } }
   function gen_upgradetype2(item, p, m) { return function(sps, store) { sps.pSPC += p*store[item]; sps.mSPC += m; return sps; } }
+
   function gen_upgradetype3(p, m) { return function(sps, store) { sps.pSPS += p; sps.mSPS += m; return sps; } }
   function gen_finalupgrade(m) { return function(sps, store) { var b = (store[0]+store[1]+CountBuildings(store))*m; for(var i = 0; i < sps.mStore.length; ++i) sps.mStore[i] += b; return sps;} }
   function gen_muffinupgrade(pSPS, mSPS) { return function(sps, store) { sps.mMuffin += mSPS*((typeof Game !== 'undefined')?Game.muffins:0); return sps; } }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   /* upgrade pool object: {
     pSPS, // Global additive bonus to SPS (applied after store)
@@ -489,6 +536,10 @@ var ponyclicker = (function(){
     mStore // array of multiplicative bonuses to individual store item SPS
   }*/
   
+
+
+
+
   //
   // -------------------------------- Upgrade generation --------------------------------
   //
@@ -497,119 +548,119 @@ var ponyclicker = (function(){
   function gencountcond(item, count) { return function() { return Game.store[item] >= count && this.cost < (Game.totalsmiles*1.2)} }
   
   var upgradeList = {
-    '1':{id:1, cost:600, name:"Booping Assistants", desc: "Booping gets +1 SPB for every pony you have.", fn:gen_upgradetype2(0, 1, 0), cond:defcond, flavor: 'Here Comes The Booping Squad.'},
-    '2':{id:2, cost:7000, name:"Friendship is Booping", desc: "Booping gets +1 SPB for every friendship you have.", fn:gen_upgradetype2(1, 1, 0), cond:defcond },
-    '3':{id:3, cost:80000, name:"Ticklish Cursors", desc: "Booping gets 1% of your SPS.", fn:gen_upgradetype2(0, 0, 0.01), cond:defcond},
-    '4':{id:4, cost:900000, name:"Feathered Cursors", desc: "Booping gets an additional 2% of your SPS.", fn:gen_upgradetype2(0, 0, 0.02), cond:defcond},
-    '5':{id:5, cost:10000000, name:"Advanced Tickle-fu", desc: "Booping gets an additional 3% of your SPS.", fn:gen_upgradetype2(0, 0, 0.03), cond:defcond},
-    '6':{id:6, cost:110000000, name:"Happiness Injection", desc: "Booping gets an additional 4% of your SPS.", fn:gen_upgradetype2(0, 0, 0.04), cond:defcond},
-    '7':{id:7, cost:700000, name:"Friendship Is Magic", desc: "Friendships generate +1 SPS for every other friendship.", fn:gen_upgradetype1(1, 1, 0), cond:defcond },
-    '8':{id:8, cost:10000000, name:"Friendship Is Spellcraft", desc: "Friendships generate +10 SPS for every other friendship.", fn:gen_upgradetype1(1, 10, 0), cond:defcond },
-    '9':{id:9, cost:500000000, name:"Friendship Is Sorcery", desc: "Friendships generate +100 SPS for every other friendship.", fn:gen_upgradetype1(1, 100, 0), cond:defcond },
-    '10':{id:10, cost:10000000000, name:"Friendship Is Witchcraft", desc: "Friendships generate +1000 SPS for every other friendship.", fn:gen_upgradetype1(1, 1000, 0), cond:defcond },
-    '11':{id:11, cost:300000000000, name:"Friendship Is Benefits", desc: "Friendships generate +10000 SPS for every other friendship.", fn:gen_upgradetype1(1, 10000, 0), cond:defcond },
-    '12':{id:12, cost:3800000000000, name:"Friendship Is Rainbows", desc: "Friendships generate +100000 SPS for every other friendship.", fn:gen_upgradetype1(1, 100000, 0), cond:defcond },
-    '13':{id:13, cost:7777777, name:"I just don't know what went wrong!", desc: "You gain +1% SPS for every muffin you have.", fn:gen_muffinupgrade(0, 0.01), cond:defcond },
-    '14':{id:14, cost:7777777777, name:"That one mailmare", desc: "You gain an additional +2% SPS for every muffin you have.", fn:gen_muffinupgrade(0, 0.02), cond:defcond },
-    '15':{id:15, cost:7777777777777, name:"Derpy Delivery Service", desc: "You gain an additional +3% SPS for every muffin you have.", fn:gen_muffinupgrade(0, 0.03), cond:defcond },
-    '16':{id:16, cost:7777777777777777, name:"Blueberry Muffins", desc: "You gain an additional +4% SPS for every muffin you have.", fn:gen_muffinupgrade(0, 0.04), cond:defcond },
-    '17':{id:17, cost:7777777777777777777, name:"Chocolate-chip Muffins", desc: "You gain an additional +5% SPS for every muffin you have.", fn:gen_muffinupgrade(0, 0.05), cond:defcond },
-    '18':{id:18, cost:7777777777777777777777, name:"Lemon Muffins", desc: "You gain an additional +6% SPS for every muffin you have.", fn:gen_muffinupgrade(0, 0.06), cond:defcond },
-    '19':{id:19, cost:7777777777777777777777777, name:"Poppy seed Muffins", desc: "You gain an additional +7% SPS for every muffin you have.", fn:gen_muffinupgrade(0, 0.07), cond:defcond },
-    '20':{id:20, cost:7777777777777777777777777777, name:"Muffin Bakeries", desc: "You gain an additional +8% SPS for every muffin you have.", fn:gen_muffinupgrade(0, 0.08), cond:defcond },
-    '21':{id:21, cost:7777777777777777777777777777777, name:"Designer Muffins", desc: "You gain an additional +9% SPS for every muffin you have.", fn:gen_muffinupgrade(0, 0.09), cond:defcond },
-    '22':{id:22, cost:7777777777777777777777777777777777, name:"Muffin Factories", desc: "You gain an additional +10% SPS for every muffin you have.", fn:gen_muffinupgrade(0, 0.1), cond:defcond },
-    '23':{id:23, cost:320000, name:"Row Row Your Boat", desc: "Recitals generate +1 SPS for every other recital.", fn:gen_upgradetype1(2, 1, 0), cond:defcond },
-    '24':{id:24, cost:9000000, name:"Fur Elise", desc: "Recitals generate +10 SPS for every other recital.", fn:gen_upgradetype1(2, 10, 0), cond:defcond },
-    '25':{id:25, cost:350000000, name:"Moonlight Sonata", desc: "Recitals generate +100 SPS for every other recital.", fn:gen_upgradetype1(2, 100, 0), cond:defcond },
-    '26':{id:26, cost:12000000000, name:"Tocatta In D Minor", desc: "Recitals generate +1000 SPS for every other recital.", fn:gen_upgradetype1(2, 1000, 0), cond:defcond },
-    '27':{id:27, cost:200000000000, name:"Nocturne", desc: "Recitals generate +10000 SPS for every other recital.", fn:gen_upgradetype1(2, 10000, 0), cond:defcond },
-    '28':{id:28, cost:660000, name:"Welcome Party", desc: "Parties generate +2 SPS for every other party.", fn:gen_upgradetype1(3, 2, 0), cond:defcond },
-    '29':{id:29, cost:50000000, name:"Birthday Party", desc: "Parties generate +20 SPS for every other party.", fn:gen_upgradetype1(3, 20, 0), cond:defcond },
-    '30':{id:30, cost:1000000000, name:"Cider Weekend", desc: "Parties generate +200 SPS for every other party.", fn:gen_upgradetype1(3, 200, 0), cond:defcond },
-    '31':{id:31, cost:20000000000, name:"Wedding", desc: "Parties generate +2000 SPS for every other party.", fn:gen_upgradetype1(3, 2000, 0), cond:defcond },
-    '32':{id:32, cost:320000000000, name:"Anniversary", desc: "Parties generate +20000 SPS for every other party.", fn:gen_upgradetype1(3, 20000, 0), cond:defcond },
-    '33':{id:33, cost:900000, name:"Mayor Day", desc: "Parades generate +4 SPS for every other parade.", fn:gen_upgradetype1(4, 4, 0), cond:defcond },
-    '34':{id:34, cost:100000000, name:"Celestia Day", desc: "Parades generate +40 SPS for every other parade.", fn:gen_upgradetype1(4, 40, 0), cond:defcond },
-    '35':{id:35, cost:2000000000, name:"Parade Day", desc: "Parades generate +400 SPS for every other parade.", fn:gen_upgradetype1(4, 400, 0), cond:defcond },
-    '36':{id:36, cost:40000000000, name:"Night Day ...?", desc: "Parades generate +4000 SPS for every other parade.", fn:gen_upgradetype1(4, 4000, 0), cond:defcond },
-    '37':{id:37, cost:850000000000, name:"Day Day ???", desc: "Parades generate +40000 SPS for every other parade.", fn:gen_upgradetype1(4, 40000, 0), cond:defcond },
-    '38':{id:38, cost:1000000, name:"Canon In D Major", desc: "Concerts generate +8 SPS for every other concert.", fn:gen_upgradetype1(5, 8, 0), cond:defcond, flavor: "It follows you everywhere. There is no escape." },
-    '39':{id:39, cost:100000000, name:"Four Seasons", desc: "Concerts generate +80 SPS for every other concert.", fn:gen_upgradetype1(5, 80, 0), cond:defcond },
-    '40':{id:40, cost:1750000000, name:"The Nutcracker", desc: "Concerts generate +800 SPS for every other concert.", fn:gen_upgradetype1(5, 800, 0), cond:defcond },
-    '41':{id:41, cost:80000000000, name:"Beethooven's Ninth", desc: "Concerts generate +8000 SPS for every other concert.", fn:gen_upgradetype1(5, 8000, 0), cond:defcond },
-    '42':{id:42, cost:1000000000000, name:"Requiem In D Minor", desc: "Concerts generate +80000 SPS for every other concert.", fn:gen_upgradetype1(5, 80000, 0), cond:defcond },
-    '43':{id:43, cost:1500000000, name:"Festive Festivities", desc: "Festivals generate twice as many smiles.", fn:gen_upgradetype1(6, 0, 1.0), cond:defcond },
-    '44':{id:44, cost:15000000000, name:"Flower Festival", desc: "Festivals smile generation doubled, again.", fn:gen_upgradetype1(6, 0, 1.0), cond:defcond },
+    '1':{id:1, cost:600, name:"Тык-ассистенты", desc: "Каждый тык дает +1 улыбок за тык за каждую пони.", fn:gen_upgradetype2(0, 1, 0), cond:defcond, flavor: 'Тык-отряд, за работу!.'},
+    '2':{id:2, cost:7000, name:"Тык это магия", desc: "Каждый тык дает +1 улыбок за тык за каждую дружбу.", fn:gen_upgradetype2(1, 1, 0), cond:defcond },
+    '3':{id:3, cost:80000, name:"Щекочащие курсоры", desc: "Каждый тык дает 1% от улыбок в секунду.", fn:gen_upgradetype2(0, 0, 0.01), cond:defcond},
+    '4':{id:4, cost:900000, name:"Курсоры с перышками", desc: "Каждый тык дает 2% от улыбок в секунду.", fn:gen_upgradetype2(0, 0, 0.02), cond:defcond},
+    '5':{id:5, cost:10000000, name:"Мастер щекотеквандо", desc: "Каждый тык дает 3% от улыбок в секунду.", fn:gen_upgradetype2(0, 0, 0.03), cond:defcond},
+    '6':{id:6, cost:110000000, name:"Иньекция счастья", desc: "Каждый тык дает 4% от улыбок в секунду.", fn:gen_upgradetype2(0, 0, 0.04), cond:defcond},
+    '7':{id:7, cost:700000, name:"Дружба — это магия", desc: "Дружба генерирует +1 улыбок в секунду за каждую другую дружбу.", fn:gen_upgradetype1(1, 1, 0), cond:defcond },
+    '8':{id:8, cost:10000000, name:"Дружба — это волшебство", desc: "Дружба генерирует +10 улыбок в секунду за каждую другую дружбу.", fn:gen_upgradetype1(1, 10, 0), cond:defcond },
+    '9':{id:9, cost:500000000, name:"Дружба — это чародейство", desc: "Дружба генерирует +100 улыбок в секунду за каждую другую дружбу.", fn:gen_upgradetype1(1, 100, 0), cond:defcond },
+    '10':{id:10, cost:10000000000, name:"Дружба — это колдовство", desc: "Дружба генерирует +1000 улыбок в секунду за каждую другую дружбу.", fn:gen_upgradetype1(1, 1000, 0), cond:defcond },
+    '11':{id:11, cost:300000000000, name:"Дружба — это преимущества", desc: "Дружба генерирует +10000 улыбок в секунду за каждую другую дружбу.", fn:gen_upgradetype1(1, 10000, 0), cond:defcond },
+    '12':{id:12, cost:3800000000000, name:"Дружба — это радуга", desc: "Дружба генерирует +100000 улыбок в секунду за каждую другую дружбу.", fn:gen_upgradetype1(1, 100000, 0), cond:defcond },
+    '13':{id:13, cost:7777777, name:"Я не знаю, что пошло не так!", desc: "Вы получаете +0.1% улыбок в секунду за каждый маффин.", fn:gen_muffinupgrade(0, 0.01), cond:defcond },
+    '14':{id:14, cost:7777777777, name:"Пони-почтальон", desc: "Вы получаете +0.2% улыбок в секунду за каждый маффин.", fn:gen_muffinupgrade(0, 0.02), cond:defcond },
+    '15':{id:15, cost:7777777777777, name:"Служба доставки Дерпи", desc: "Вы получаете +0.3% улыбок в секунду за каждый маффин.", fn:gen_muffinupgrade(0, 0.03), cond:defcond },
+    '16':{id:16, cost:7777777777777777, name:"Маффины с черникой", desc: "Вы получаете +0.4% улыбок в секунду за каждый маффин.", fn:gen_muffinupgrade(0, 0.04), cond:defcond },
+    '17':{id:17, cost:7777777777777777777, name:"Маффины с шоколадной крошкой", desc: "Вы получаете +0.5% улыбок в секунду за каждый маффин.", fn:gen_muffinupgrade(0, 0.05), cond:defcond },
+    '18':{id:18, cost:7777777777777777777777, name:"Маффины с лимоном", desc: "Вы получаете +0.6% улыбок в секунду за каждый маффин.", fn:gen_muffinupgrade(0, 0.06), cond:defcond },
+    '19':{id:19, cost:7777777777777777777777777, name:"Маффины с маком", desc: "Вы получаете +0.7% улыбок в секунду за каждый маффин.", fn:gen_muffinupgrade(0, 0.07), cond:defcond },
+    '20':{id:20, cost:7777777777777777777777777777, name:"Сеть пекарен маффинов", desc: "Вы получаете +0.8% улыбок в секунду за каждый маффин.", fn:gen_muffinupgrade(0, 0.08), cond:defcond },
+    '21':{id:21, cost:7777777777777777777777777777777, name:"Дизайнерские маффины", desc: "Вы получаете +0.9% улыбок в секунду за каждый маффин.", fn:gen_muffinupgrade(0, 0.09), cond:defcond },
+    '22':{id:22, cost:7777777777777777777777777777777777, name:"Фабрики маффинов", desc: "Вы получаете +1.0% улыбок в секунду за каждый маффин.", fn:gen_muffinupgrade(0, 0.1), cond:defcond },
+    '23':{id:23, cost:320000, name:"В лесу родилась елочка", desc: "Выступления генерируют +1 улыбок в секунду за каждое другое выступление.", fn:gen_upgradetype1(2, 1, 0), cond:defcond },
+    '24':{id:24, cost:9000000, name:"Für Elise", desc: "Выступления генерируют +10 SPS улыбок в секунду за каждое другое выступление.", fn:gen_upgradetype1(2, 10, 0), cond:defcond },
+    '25':{id:25, cost:350000000, name:"Лунная соната", desc: "Выступления генерируют +100 SPS улыбок в секунду за каждое другое выступление.", fn:gen_upgradetype1(2, 100, 0), cond:defcond },
+    '26':{id:26, cost:12000000000, name:"Токката и фуга в ре миноре", desc: "Выступления генерируют +1000 SPS улыбок в секунду за каждое другое выступление.", fn:gen_upgradetype1(2, 1000, 0), cond:defcond },
+    '27':{id:27, cost:200000000000, name:"Ноктюрн", desc: "Выступления генерируют +10000 SPS улыбок в секунду за каждое другое выступление.", fn:gen_upgradetype1(2, 10000, 0), cond:defcond },
+    '28':{id:28, cost:660000, name:"Приветственная вечеринка", desc: "Вечеринки генерируют +2 улыбок в секунду за каждую другую вечеринку.", fn:gen_upgradetype1(3, 2, 0), cond:defcond },
+    '29':{id:29, cost:50000000, name:"День рождения", desc: "Вечеринки генерируют +20 улыбок в секунду за каждую другую вечеринку.", fn:gen_upgradetype1(3, 20, 0), cond:defcond },
+    '30':{id:30, cost:1000000000, name:"Дегустация сидра", desc: "Вечеринки генерируют +200 улыбок в секунду за каждую другую вечеринку.", fn:gen_upgradetype1(3, 200, 0), cond:defcond },
+    '31':{id:31, cost:20000000000, name:"Свадьба", desc: "Вечеринки генерируют +2000 улыбок в секунду за каждую другую вечеринку.", fn:gen_upgradetype1(3, 2000, 0), cond:defcond },
+    '32':{id:32, cost:320000000000, name:"Годовщина", desc: "Вечеринки генерируют +20000 улыбок в секунду за каждую другую вечеринку.", fn:gen_upgradetype1(3, 20000, 0), cond:defcond },
+    '33':{id:33, cost:900000, name:"День Мэра", desc: "Парады генерируют +4 улыбок в секунду за каждый другой парад.", fn:gen_upgradetype1(4, 4, 0), cond:defcond },
+    '34':{id:34, cost:100000000, name:"День Селестии", desc: "Парады генерируют +40 улыбок в секунду за каждый другой парад.", fn:gen_upgradetype1(4, 40, 0), cond:defcond },
+    '35':{id:35, cost:2000000000, name:"День парадов", desc: "Парады генерируют +400 улыбок в секунду за каждый другой парад.", fn:gen_upgradetype1(4, 400, 0), cond:defcond },
+    '36':{id:36, cost:40000000000, name:"День... ночи?", desc: "Парады генерируют +4000 улыбок в секунду за каждый другой парад.", fn:gen_upgradetype1(4, 4000, 0), cond:defcond },
+    '37':{id:37, cost:850000000000, name:"День дня???", desc: "Парады генерируют +40000 улыбок в секунду за каждый другой парад.", fn:gen_upgradetype1(4, 40000, 0), cond:defcond },
+    '38':{id:38, cost:1000000, name:"Канон Пахельбеля", desc: "Концерты генерируют +8 улыбок в секунду за каждый другой концерт.", fn:gen_upgradetype1(5, 8, 0), cond:defcond, flavor: "Они следят за тобой. Бежать больше некуда." },
+    '39':{id:39, cost:100000000, name:"Времена года", desc: "Концерты генерируют +80 улыбок в секунду за каждый другой концерт.", fn:gen_upgradetype1(5, 80, 0), cond:defcond },
+    '40':{id:40, cost:1750000000, name:"Щелкунчик", desc: "Концерты генерируют +800 улыбок в секунду за каждый другой концерт.", fn:gen_upgradetype1(5, 800, 0), cond:defcond },
+    '41':{id:41, cost:80000000000, name:"Девятая симфония", desc: "Концерты генерируют +8000 улыбок в секунду за каждый другой концерт.", fn:gen_upgradetype1(5, 8000, 0), cond:defcond },
+    '42':{id:42, cost:1000000000000, name:"Реквием в ре миноре", desc: "Концерты генерируют +80000 улыбок в секунду за каждый другой концерт.", fn:gen_upgradetype1(5, 80000, 0), cond:defcond },
+    '43':{id:43, cost:1500000000, name:"Праздничное празднование", desc: "Фестивали генерируют в два раза больше улыбок.", fn:gen_upgradetype1(6, 0, 1.0), cond:defcond },
+    '44':{id:44, cost:15000000000, name:"Фестиваль цветов", desc: "Генерация улыбок фестивалями удваивается еще раз.", fn:gen_upgradetype1(6, 0, 1.0), cond:defcond },
     //'45':{id:45, cost:150000000000, name:"Upgrade 6", desc: "Festivals smile generation doubled, again.", fn:gen_upgradetype1(6, 0, 1.0), cond:defcond },
     //'46':{id:46, cost:1500000000000, name:"Upgrade 6", desc: "Festivals smile generation doubled, again.", fn:gen_upgradetype1(6, 0, 1.0), cond:defcond },
     //'47':{id:47, cost:15000000000000, name:"Upgrade 6", desc: "Festivals smile generation doubled, again.", fn:gen_upgradetype1(6, 0, 1.0), cond:defcond },
-    '48':{id:48, cost:8000000, name:"DJ Pon-3", desc: "Raves generate +32 SPS for every other rave.", fn:gen_upgradetype1(7, 32, 0), cond:defcond },
-    '49':{id:49, cost:800000000, name:"Glaze", desc: "Raves generate +320 SPS for every other rave.", fn:gen_upgradetype1(7, 320, 0), cond:defcond },
-    '50':{id:50, cost:11000000000, name:"Glowsticks", desc: "Raves generate +3200 SPS for every other rave.", fn:gen_upgradetype1(7, 3200, 0), cond:defcond },
-    '51':{id:51, cost:160000000000, name:"Extra Glowsticks", desc: "Raves generate +32000 SPS for every other rave.", fn:gen_upgradetype1(7, 32000, 0), cond:defcond },
-    '52':{id:52, cost:2300000000000, name:"Subwoofers", desc: "Raves generate +320000 SPS for every other rave.", fn:gen_upgradetype1(7, 320000, 0), cond:defcond },
-    '53':{id:53, cost:16000000, name:"Two-bit Dress", desc: "Grand Galloping Galas generate +64 SPS for every other Grand Galloping Gala.", fn:gen_upgradetype1(8, 64, 0), cond:defcond },
-    '54':{id:54, cost:400000000, name:"Formal Attire", desc: "Grand Galloping Galas generate +640 SPS for every other Grand Galloping Gala.", fn:gen_upgradetype1(8, 640, 0), cond:defcond },
-    '55':{id:55, cost:6000000000, name:"Tailored Suit", desc: "Grand Galloping Galas generate +6400 SPS for every other Grand Galloping Gala.", fn:gen_upgradetype1(8, 6400, 0), cond:defcond },
-    '56':{id:56, cost:120000000000, name:"Rarity's Finest", desc: "Grand Galloping Galas generate +64000 SPS for every other Grand Galloping Gala.", fn:gen_upgradetype1(8, 64000, 0), cond:defcond },
-    '57':{id:57, cost:3000000000000, name:"Hats", desc: "Grand Galloping Galas generate +640000 SPS for every other Grand Galloping Gala.", fn:gen_upgradetype1(8, 640000, 0), cond:defcond },
-    '58':{id:58, cost:32000000, name:"Princess Twilight", desc: "Coronations generate +128 SPS for every other Coronation.", fn:gen_upgradetype1(9, 128, 0), cond:defcond },
-    '59':{id:59, cost:1500000000, name:"Princess Cadance", desc: "Coronations generate +1280 SPS for every other Coronation.", fn:gen_upgradetype1(9, 1280, 0), cond:defcond },
-    '60':{id:60, cost:22000000000, name:"Princess Derpy", desc: "Coronations generate +12800 SPS for every other Coronation.", fn:gen_upgradetype1(9, 12800, 0), cond:defcond },
-    '61':{id:61, cost:340000000000, name:"Princess Big Mac", desc: "Coronations generate +128000 SPS for every other Coronation.", fn:gen_upgradetype1(9, 128000, 0), cond:defcond },
-    '62':{id:62, cost:8000000000000, name:"Fausticorn", desc: "Coronations generate +1280000 SPS for every other Coronation.", fn:gen_upgradetype1(9, 1280000, 0), cond:defcond },
-    '63':{id:63, cost:64000000, name:"Three Day Weekend", desc: "National holidays generate +256 SPS for every other national holiday.", fn:gen_upgradetype1(10, 256, 0), cond:defcond },
-    '64':{id:64, cost:1500000000, name:"Extra Day Off", desc: "National holidays generate +2560 SPS for every other national holiday.", fn:gen_upgradetype1(10, 2560, 0), cond:defcond },
-    '65':{id:65, cost:22000000000, name:"Four Day Weekend", desc: "National holidays generate +25600 SPS for every other national holiday.", fn:gen_upgradetype1(10, 25600, 0), cond:defcond },
-    '66':{id:66, cost:300000000000, name:"Bonus Vacation Time", desc: "National holidays generate +256000 SPS for every other national holiday.", fn:gen_upgradetype1(10, 256000, 0), cond:defcond },
-    '67':{id:67, cost:900000000000, name:"Week-long Sabbatical", desc: "National holidays generate +2560000 SPS for every other national holiday.", fn:gen_upgradetype1(10, 2560000, 0), cond:defcond },
-    '68':{id:68, cost:100000, name:"Plain Bagels", desc: "+1% smiles per second", fn:gen_upgradetype3(0, 0.01), cond:defcond },
-    '69':{id:69, cost:1000000, name:"Poppyseed Bagels", desc: "+1% smiles per second", fn:gen_upgradetype3(0, 0.01), cond:defcond },
-    '70':{id:70, cost:10000000, name:"Blueberry Bagels", desc: "+1% smiles per second", fn:gen_upgradetype3(0, 0.01), cond:defcond },
-    '71':{id:71, cost:100000000, name:"Onion Bagels", desc: "+1% smiles per second", fn:gen_upgradetype3(0, 0.01), cond:defcond },
-    '72':{id:72, cost:1000000000, name:"Cinnamon Raisin Bagels", desc: "+1% smiles per second", fn:gen_upgradetype3(0, 0.01), cond:defcond },
-    '73':{id:73, cost:10000000000, name:"French Toast Bagels", desc: "+1% smiles per second", fn:gen_upgradetype3(0, 0.01), cond:defcond },
-    '74':{id:74, cost:100000000000, name:"Banana Bread Bagels", desc: "+1% smiles per second", fn:gen_upgradetype3(0, 0.01), cond:defcond },
-    '75':{id:75, cost:1000000000000, name:"Cheese Pastry", desc: "+5% smiles per second", fn:gen_upgradetype3(0, 0.05), cond:defcond },
-    '76':{id:76, cost:1500000000000, name:"Chocolate Pastry", desc: "+5% smiles per second", fn:gen_upgradetype3(0, 0.05), cond:defcond },
-    '77':{id:77, cost:2000000000000, name:"Cherry Pastry", desc: "+5% smiles per second", fn:gen_upgradetype3(0, 0.05), cond:defcond },
-    '78':{id:78, cost:2500000000000, name:"Strawberry Pastry", desc: "+5% smiles per second", fn:gen_upgradetype3(0, 0.05), cond:defcond },
-    '79':{id:79, cost:3000000000000, name:"Blueberry Pastry", desc: "+5% smiles per second", fn:gen_upgradetype3(0, 0.05), cond:defcond },
-    '80':{id:80, cost:3500000000000, name:"Raspberry Pastry", desc: "+5% smiles per second", fn:gen_upgradetype3(0, 0.05), cond:defcond },
-    '81':{id:81, cost:4000000000000, name:"Blackberry Pastry", desc: "+5% smiles per second", fn:gen_upgradetype3(0, 0.05), cond:defcond },
-    '82':{id:82, cost:100000000000, name:"Friendship Is Friendly", desc: "Friendships gain +1% SPS.", fn:gen_upgradetype1(1, 0, 0.01), cond:defcond },
-    '83':{id:83, cost:30000000000, name:"Friendship Is Recitals", desc: "Recitals gain +1% SPS.", fn:gen_upgradetype1(2, 0, 0.01), cond:defcond },
-    '84':{id:84, cost:100000000000, name:"Friendship Is Parties", desc: "Parties gain +1% SPS.", fn:gen_upgradetype1(3, 0, 0.01), cond:defcond },
-    '85':{id:85, cost:200000000000, name:"Friendship Is Parades", desc: "Parades gain +1% SPS.", fn:gen_upgradetype1(4, 0, 0.01), cond:defcond },
-    '86':{id:86, cost:500000000000, name:"Friendship Is Concerts", desc: "Concerts gain +1% SPS.", fn:gen_upgradetype1(5, 0, 0.01), cond:defcond },
-    '87':{id:87, cost:1000000000000, name:"Friendship Is Festivals", desc: "Festivals gain +1% SPS.", fn:gen_upgradetype1(6, 0, 0.01), cond:defcond },
-    '88':{id:88, cost:2000000000000, name:"Friendship Is Raves", desc: "Raves gain +1% SPS.", fn:gen_upgradetype1(7, 0, 0.01), cond:defcond },
-    '89':{id:89, cost:10000000000000000, name:"Mirror Pool", desc: "Everything gets +0.01% SPS for everything else.", fn:gen_finalupgrade(0.0001), cond:defcond },
-    '90':{id:90, cost:40000000000000000, name:"Mirror Mirror Pool", desc: "Everything gets +0.02% SPS for everything else.", fn:gen_finalupgrade(0.0002), cond:genprecond(89) },
-    '91':{id:91, cost:800000000000000000, name:"Super Mirror Pool", desc: "Everything gets +0.04% SPS for everything else.", fn:gen_finalupgrade(0.0004), cond:genprecond(90) },
-    '92':{id:92, cost:1600000000000000000, name:"Duper Mirror Pool", desc: "Everything gets +0.07% SPS for everything else.", fn:gen_finalupgrade(0.0007), cond:genprecond(91) },
-    '93':{id:93, cost:3200000000000000000, name:"Hyper Mirror Pool", desc: "Everything gets +0.1% SPS for everything else.", fn:gen_finalupgrade(0.001), cond:genprecond(92) },
-    '94':{id:94, cost:9000000000000000000, name:"Ascended Mirror Pool", desc: "Everything gets +0.2% SPS for everything else.", fn:gen_finalupgrade(0.002), cond:genprecond(93) },
-    '95':{id:95, cost:50000000000000000000, name:"Mega Mirror Pool", desc: "Everything gets +0.4% SPS for everything else.", fn:gen_finalupgrade(0.004), cond:genprecond(94) },
-    '96':{id:96, cost:250000000000000000000, name:"Giga Mirror Pool", desc: "Everything gets +0.7% SPS for everything else.", fn:gen_finalupgrade(0.007), cond:genprecond(95) },
-    '97':{id:97, cost:1000000000000000000000, name:"Ultra Mirror Pool", desc: "Everything gets +1% SPS for everything else.", fn:gen_finalupgrade(0.01), cond:genprecond(96) },
-    '98':{id:98, cost:4000000000000000000000, name:"Master Mirror Pool", desc: "Everything gets +2% SPS for everything else.", fn:gen_finalupgrade(0.02), cond:genprecond(97) },
-    '99':{id:99, cost:12000000000000000000000, name:"Ultimate Mirror Pool", desc: "Everything gets +4% SPS for everything else.", fn:gen_finalupgrade(0.04), cond:genprecond(98) },
-    '100':{id:100, cost:24000000000000000000000, name:"Über Mirror Pool", desc: "Everything gets +7% SPS for everything else.", fn:gen_finalupgrade(0.07), cond:genprecond(99) },
-    '101':{id:101, cost:50000000000000000000000, name:"Omni Mirror Pool", desc: "Everything gets +10% SPS for everything else.", fn:gen_finalupgrade(0.1), cond:genprecond(100) },
-    '102':{id:102, cost:100000000000000000000000, name:"Supreme Mirror Pool", desc: "Everything gets +20% SPS for everything else.", fn:gen_finalupgrade(0.2), cond:genprecond(101) },
-    '103':{id:103, cost:200000000000000000000000, name:"Neo Mirror Pool", desc: "Everything gets +30% SPS for everything else.", fn:gen_finalupgrade(0.3), cond:genprecond(102) },
-    '104':{id:104, cost:500000000000000000000000, name:"Epic Mirror Pool", desc: "Everything gets +40% SPS for everything else.", fn:gen_finalupgrade(0.4), cond:genprecond(103) },
-    '105':{id:105, cost:1000000000000000000000000, name:"Global Mirror Pool", desc: "Everything gets +50% SPS for everything else.", fn:gen_finalupgrade(0.5), cond:genprecond(104) },
-    '106':{id:106, cost:2000000000000000000000000, name:"Solar Mirror Pool", desc: "Everything gets +60% SPS for everything else.", fn:gen_finalupgrade(0.6), cond:genprecond(105) },
-    '107':{id:107, cost:4000000000000000000000000, name:"Galactic Mirror Pool", desc: "Everything gets +70% SPS for everything else.", fn:gen_finalupgrade(0.7), cond:genprecond(106) },
-    '108':{id:108, cost:8000000000000000000000000, name:"Universal Mirror Pool", desc: "Everything gets +80% SPS for everything else.", fn:gen_finalupgrade(0.8), cond:genprecond(107) },
-    '109':{id:109, cost:15000000000000000000000000, name:"Cosmic Mirror Pool", desc: "Everything gets +90% SPS for everything else.", fn:gen_finalupgrade(0.9), cond:genprecond(108) },
-    '110':{id:110, cost:30000000000000000000000000, name:"Immortal Mirror Pool", desc: "Everything gets +100% SPS for everything else.", fn:gen_finalupgrade(1), cond:genprecond(109) },
-    '111':{id:111, cost:1000000000000000000000000000, name:"Forever Mirror Pool", desc: "Everything gets +1000% SPS for everything else.", fn:gen_finalupgrade(10), cond:genprecond(110) },
-    '112':{id:112, cost:100000000000000000000000000000, name:"Eternal Mirror Pool", desc: "Everything gets +10000% SPS for everything else.", fn:gen_finalupgrade(100), cond:genprecond(111) },
-    '113':{id:113, cost:100000000000000000000000000000000, name:"Final Mirror Pool", desc: "Everything gets +100000% SPS for everything else.", fn:gen_finalupgrade(1000), cond:genprecond(112) },
+    '48':{id:48, cost:8000000, name:"DJ Pon-3", desc: "Дискотеки генерируют +32 улыбок в секунду за каждую другую дискотеку.", fn:gen_upgradetype1(7, 32, 0), cond:defcond },
+    '49':{id:49, cost:800000000, name:"Тусовка", desc: "Дискотеки генерируют +320 улыбок в секунду за каждую другую дискотеку.", fn:gen_upgradetype1(7, 320, 0), cond:defcond },
+    '50':{id:50, cost:11000000000, name:"Светящиеся палочки", desc: "Дискотеки генерируют +3200 улыбок в секунду за каждую другую дискотеку.", fn:gen_upgradetype1(7, 3200, 0), cond:defcond },
+    '51':{id:51, cost:160000000000, name:"Больше светящихся палочек!", desc: "Дискотеки генерируют +32000 улыбок в секунду за каждую другую дискотеку.", fn:gen_upgradetype1(7, 32000, 0), cond:defcond },
+    '52':{id:52, cost:2300000000000, name:"Сабвуферы", desc: "Дискотеки генерируют +320000 улыбок в секунду за каждую другую дискотеку.", fn:gen_upgradetype1(7, 320000, 0), cond:defcond },
+    '53':{id:53, cost:16000000, name:"Платье за две монеты", desc: "Грандиозные гала-концерты генерируют +64 улыбок в секунду за каждый другой гала-концерт.", fn:gen_upgradetype1(8, 64, 0), cond:defcond },
+    '54':{id:54, cost:400000000, name:"Официальный костюм", desc: "Грандиозные гала-концерты генерируют +640 улыбок в секунду за каждый другой гала-концерт.", fn:gen_upgradetype1(8, 640, 0), cond:defcond },
+    '55':{id:55, cost:6000000000, name:"Фрак на заказ", desc: "Грандиозные гала-концерты генерируют +6400 улыбок в секунду за каждый другой гала-концерт.", fn:gen_upgradetype1(8, 6400, 0), cond:defcond },
+    '56':{id:56, cost:120000000000, name:"Шедевр от Рэрити", desc: "Грандиозные гала-концерты генерируют +64000 улыбок в секунду за каждый другой гала-концерт.", fn:gen_upgradetype1(8, 64000, 0), cond:defcond },
+    '57':{id:57, cost:3000000000000, name:"Шляпы", desc: "Грандиозные гала-концерты генерируют +640000 улыбок в секунду за каждый другой гала-концерт.", fn:gen_upgradetype1(8, 640000, 0), cond:defcond },
+    '58':{id:58, cost:32000000, name:"Принцесса Твайлайт", desc: "Коронации генерируют +128 улыбок в секунду за каждую другую коронацию.", fn:gen_upgradetype1(9, 128, 0), cond:defcond },
+    '59':{id:59, cost:1500000000, name:"Принцесса Кейденс", desc: "Коронации генерируют +1280 улыбок в секунду за каждую другую коронацию.", fn:gen_upgradetype1(9, 1280, 0), cond:defcond },
+    '60':{id:60, cost:22000000000, name:"Принцесса Дерпи", desc: "Коронации генерируют +12800 улыбок в секунду за каждую другую коронацию.", fn:gen_upgradetype1(9, 12800, 0), cond:defcond },
+    '61':{id:61, cost:340000000000, name:"Принцесса Биг Мак", desc: "Коронации генерируют +128000 улыбок в секунду за каждую другую коронацию.", fn:gen_upgradetype1(9, 128000, 0), cond:defcond },
+    '62':{id:62, cost:8000000000000, name:"Фаустикор", desc: "Коронации генерируют +1280000 улыбок в секунду за каждую другую коронацию.", fn:gen_upgradetype1(9, 1280000, 0), cond:defcond },
+    '63':{id:63, cost:64000000, name:"Трехдневное празднование", desc: "Государственные праздники генерируют +256 улыбок в секунду за каждый другой государственный праздник.", fn:gen_upgradetype1(10, 256, 0), cond:defcond },
+    '64':{id:64, cost:1500000000, name:"Дополнительные выходные", desc: "Государственные праздники генерируют +2560 улыбок в секунду за каждый другой государственный праздник.", fn:gen_upgradetype1(10, 2560, 0), cond:defcond },
+    '65':{id:65, cost:22000000000, name:"Четыре дня выходных", desc: "Государственные праздники генерируют +25600 улыбок в секунду за каждый другой государственный праздник.", fn:gen_upgradetype1(10, 25600, 0), cond:defcond },
+    '66':{id:66, cost:300000000000, name:"Дополнительный отпуск", desc: "Государственные праздники генерируют +256000 улыбок в секунду за каждый другой государственный праздник.", fn:gen_upgradetype1(10, 256000, 0), cond:defcond },
+    '67':{id:67, cost:900000000000, name:"Бессрочный творческий отпуск", desc: "Государственные праздники генерируют +2560000 улыбок в секунду за каждый другой государственный праздник.", fn:gen_upgradetype1(10, 2560000, 0), cond:defcond },
+    '68':{id:68, cost:100000, name:"Бублики", desc: "+1% улыбок в секунду", fn:gen_upgradetype3(0, 0.01), cond:defcond },
+    '69':{id:69, cost:1000000, name:"Бублики с маком", desc: "+1% улыбок в секунду", fn:gen_upgradetype3(0, 0.01), cond:defcond },
+    '70':{id:70, cost:10000000, name:"Бублики с черникой", desc: "+1% улыбок в секунду", fn:gen_upgradetype3(0, 0.01), cond:defcond },
+    '71':{id:71, cost:100000000, name:"Бублики с луком", desc: "+1% улыбок в секунду", fn:gen_upgradetype3(0, 0.01), cond:defcond },
+    '72':{id:72, cost:1000000000, name:"Бублики с корицей", desc: "+1% улыбок в секунду", fn:gen_upgradetype3(0, 0.01), cond:defcond },
+    '73':{id:73, cost:10000000000, name:"Бублики с маслом", desc: "+1% улыбок в секунду", fn:gen_upgradetype3(0, 0.01), cond:defcond },
+    '74':{id:74, cost:100000000000, name:"Бублики с бананом", desc: "+1% улыбок в секунду", fn:gen_upgradetype3(0, 0.01), cond:defcond },
+    '75':{id:75, cost:1000000000000, name:"Булочки с сыром", desc: "+5% улыбок в секунду", fn:gen_upgradetype3(0, 0.05), cond:defcond },
+    '76':{id:76, cost:1500000000000, name:"Булочки с шоколадом", desc: "+5% улыбок в секунду", fn:gen_upgradetype3(0, 0.05), cond:defcond },
+    '77':{id:77, cost:2000000000000, name:"Булочки с вишней", desc: "+5% улыбок в секунду", fn:gen_upgradetype3(0, 0.05), cond:defcond },
+    '78':{id:78, cost:2500000000000, name:"Булочки с клубникой", desc: "+5% улыбок в секунду", fn:gen_upgradetype3(0, 0.05), cond:defcond },
+    '79':{id:79, cost:3000000000000, name:"Булочки с черникой", desc: "+5% улыбок в секунду", fn:gen_upgradetype3(0, 0.05), cond:defcond },
+    '80':{id:80, cost:3500000000000, name:"Булочки с малиной", desc: "+5% улыбок в секунду", fn:gen_upgradetype3(0, 0.05), cond:defcond },
+    '81':{id:81, cost:4000000000000, name:"Булочки с ежевикой", desc: "+5% улыбок в секунду", fn:gen_upgradetype3(0, 0.05), cond:defcond },
+    '82':{id:82, cost:100000000000, name:"Дружба — это дружба", desc: "Дружбы генерируют +1% улыбок в секунду.", fn:gen_upgradetype1(1, 0, 0.01), cond:defcond },
+    '83':{id:83, cost:30000000000, name:"Дружба — это концерты", desc: "Концерты генерируют +1% улыбок в секунду.", fn:gen_upgradetype1(2, 0, 0.01), cond:defcond },
+    '84':{id:84, cost:100000000000, name:"Дружба — это вечеринки", desc: "Вечеринки генерируют +1% улыбок в секунду.", fn:gen_upgradetype1(3, 0, 0.01), cond:defcond },
+    '85':{id:85, cost:200000000000, name:"Дружба — это парады", desc: "Парады генерируют +1% улыбок в секунду.", fn:gen_upgradetype1(4, 0, 0.01), cond:defcond },
+    '86':{id:86, cost:500000000000, name:"Дружба — это концерты", desc: "Концерты генерируют +1% улыбок в секунду.", fn:gen_upgradetype1(5, 0, 0.01), cond:defcond },
+    '87':{id:87, cost:1000000000000, name:"Дружба — это фестивали", desc: "Фестивали генерируют +1% улыбок в секунду.", fn:gen_upgradetype1(6, 0, 0.01), cond:defcond },
+    '88':{id:88, cost:2000000000000, name:"Дружба — это дискотеки", desc: "Дискотеки генерируют +1% улыбок в секунду.", fn:gen_upgradetype1(7, 0, 0.01), cond:defcond },
+    '89':{id:89, cost:10000000000000000, name:"Зеркальное озеро", desc: "Все получает +0.01% улыбок в секунду за все остальное.", fn:gen_finalupgrade(0.0001), cond:defcond },
+    '90':{id:90, cost:40000000000000000, name:"Зеркальное зеркальное озеро", desc: "Все получает +0.02% улыбок в секунду за все остальное.", fn:gen_finalupgrade(0.0002), cond:genprecond(89) },
+    '91':{id:91, cost:800000000000000000, name:"Супер-зеркальное озеро", desc: "Все получает +0.04% улыбок в секунду за все остальное.", fn:gen_finalupgrade(0.0004), cond:genprecond(90) },
+    '92':{id:92, cost:1600000000000000000, name:"Пупер-зеркальное озеро", desc: "Все получает +0.07% улыбок в секунду за все остальное.", fn:gen_finalupgrade(0.0007), cond:genprecond(91) },
+    '93':{id:93, cost:3200000000000000000, name:"Дупер-зеркальное озеро", desc: "Все получает +0.1% улыбок в секунду за все остальное.", fn:gen_finalupgrade(0.001), cond:genprecond(92) },
+    '94':{id:94, cost:9000000000000000000, name:"Великое-зеркальное озеро", desc: "Все получает +0.2% улыбок в секунду за все остальное.", fn:gen_finalupgrade(0.002), cond:genprecond(93) },
+    '95':{id:95, cost:50000000000000000000, name:"Мега-зеркальное озеро", desc: "Все получает +0.4% улыбок в секунду за все остальное.", fn:gen_finalupgrade(0.004), cond:genprecond(94) },
+    '96':{id:96, cost:250000000000000000000, name:"Гига-зеркальное озеро", desc: "Все получает +0.7% улыбок в секунду за все остальное.", fn:gen_finalupgrade(0.007), cond:genprecond(95) },
+    '97':{id:97, cost:1000000000000000000000, name:"Ультра-зеркальное озеро", desc: "Все получает +1% улыбок в секунду за все остальное.", fn:gen_finalupgrade(0.01), cond:genprecond(96) },
+    '98':{id:98, cost:4000000000000000000000, name:"Сверх-зеркальное озеро", desc: "Все получает +2% улыбок в секунду за все остальное.", fn:gen_finalupgrade(0.02), cond:genprecond(97) },
+    '99':{id:99, cost:12000000000000000000000, name:"Абсолют-зеркальное озеро", desc: "Все получает +4% улыбок в секунду за все остальное.", fn:gen_finalupgrade(0.04), cond:genprecond(98) },
+    '100':{id:100, cost:24000000000000000000000, name:"Убер-зеркальное озеро", desc: "Все получает +7% улыбок в секунду за все остальное.", fn:gen_finalupgrade(0.07), cond:genprecond(99) },
+    '101':{id:101, cost:50000000000000000000000, name:"Омни-зеркальное озеро", desc: "Все получает +10% улыбок в секунду за все остальное.", fn:gen_finalupgrade(0.1), cond:genprecond(100) },
+    '102':{id:102, cost:100000000000000000000000, name:"Всевышне-зеркальное озеро", desc: "Все получает +20% улыбок в секунду за все остальное.", fn:gen_finalupgrade(0.2), cond:genprecond(101) },
+    '103':{id:103, cost:200000000000000000000000, name:"Нео-зеркальное озеро", desc: "Все получает +30% улыбок в секунду за все остальное.", fn:gen_finalupgrade(0.3), cond:genprecond(102) },
+    '104':{id:104, cost:500000000000000000000000, name:"Эпик-зеркальное озеро", desc: "Все получает +40% улыбок в секунду за все остальное.", fn:gen_finalupgrade(0.4), cond:genprecond(103) },
+    '105':{id:105, cost:1000000000000000000000000, name:"Глобальное зеркальное озеро", desc: "Все получает +50% улыбок в секунду за все остальное.", fn:gen_finalupgrade(0.5), cond:genprecond(104) },
+    '106':{id:106, cost:2000000000000000000000000, name:"Солнечное зеркальное озеро", desc: "Все получает +60% улыбок в секунду за все остальное.", fn:gen_finalupgrade(0.6), cond:genprecond(105) },
+    '107':{id:107, cost:4000000000000000000000000, name:"Галактическое зеркальное озеро", desc: "Все получает +70% улыбок в секунду за все остальное.", fn:gen_finalupgrade(0.7), cond:genprecond(106) },
+    '108':{id:108, cost:8000000000000000000000000, name:"Вселенское зеркальное озеро", desc: "Все получает +80% улыбок в секунду за все остальное.", fn:gen_finalupgrade(0.8), cond:genprecond(107) },
+    '109':{id:109, cost:15000000000000000000000000, name:"Космическое зеркальное озеро", desc: "Все получает +90% улыбок в секунду за все остальное.", fn:gen_finalupgrade(0.9), cond:genprecond(108) },
+    '110':{id:110, cost:30000000000000000000000000, name:"Бессмертное зеркальное озеро", desc: "Все получает +100% улыбок в секунду за все остальное.", fn:gen_finalupgrade(1), cond:genprecond(109) },
+    '111':{id:111, cost:1000000000000000000000000000, name:"Вечное зеркальное озеро", desc: "Все получает +1000% улыбок в секунду за все остальное.", fn:gen_finalupgrade(10), cond:genprecond(110) },
+    '112':{id:112, cost:100000000000000000000000000000, name:"Бесконечное зеркальное озеро", desc: "Все получает +10000% улыбок в секунду за все остальное.", fn:gen_finalupgrade(100), cond:genprecond(111) },
+    '113':{id:113, cost:100000000000000000000000000000000, name:"Последнее зеркальное озеро", desc: "Все получает +100000% улыбок в секунду за все остальное.", fn:gen_finalupgrade(1000), cond:genprecond(112) },
   };
 
   var curUpgradeList = [];
@@ -618,37 +669,46 @@ var ponyclicker = (function(){
   // -------------------------------- Achievement Generation --------------------------------
   //
   var achievementList = {
-    '1': { name:"Participation Award", desc: "You moved the mouse!", muffins:0},
-    '2': { name:"Hi there!", desc: "Boop a pony <b>once</b>.", muffins:0, cond:function(){ return Game.clicks > 0; } },
-    '200': { name:"Cautious", desc: "Manually save the game.", muffins:1},
-    '201': { name:"Paranoid", desc: "Export a save.", muffins:1},
-    '202': { name:"Time Machine", desc: "Import a save.", muffins:1},
-    '203': { name:"Narcissism!", desc: "Click the image of Cloud Hop on the credits page.", muffins:1},
-    '204': { name:"Music Makes Everything Better", desc: "Listen to the smile song.", muffins:1},
-    '205': { name:"You Monster", desc: "Sell a friendship.", muffins:1},
-    '206': { name:"No Booping Allowed", desc: "Get <b>"+PrettyNumStatic(1000000000000, false, 0)+"</b> smiles with only 35 pony boops.", muffins:1, cond:function() { return Game.clicks <= 35 && Game.totalsmiles >= 1000000000000; } },
-    '207': { name:"Wheel of Friendship", desc: "Spin the ponies.", muffins:1, cond:function() { return Math.abs(vangle)>0.05; } },
+
+    '1': { name:"Главное — участие", desc: "Вы пошевелили мышкой!", muffins:0},
+    '2': { name:"Приветик!", desc: "Тыкнуть пони <b>один раз</b>.", muffins:0, cond:function(){ return Game.clicks > 0; } },
+
+
+
+
+
+
+    '200': { name:"Осторожность", desc: "Сохранить игру вручную.", muffins:1},
+    '201': { name:"Параноик", desc: "Экспортировать сохранение.", muffins:1},
+    '202': { name:"Машина времени", desc: "Импортировать сохранение.", muffins:1},
+    '203': { name:"Нарциссизм!", desc: "Щелкнуть по картинке Клауд Хопа в окне «Автор».", muffins:1},
+    '204': { name:"Под музыку веселее", desc: "Насладиться песней про улыбки.", muffins:1},
+    '205': { name:"Чудовище!", desc: "Продать дружбу.", muffins:1},
+    '206': { name:"Не сметь тыкать!", desc: "Заработать <b>"+PrettyNumStatic(1000000000000, false, 0)+"</b> улыбок, сделав не больше 35 кликов.", muffins:1, cond:function() { return Game.clicks <= 35 && Game.totalsmiles >= 1000000000000; } },
+    '207': { name:"Барабан дружбы", desc: "Крутануть пони.", muffins:1, cond:function() { return Math.abs(vangle)>0.05; } },
+
+
     //'208': { name:"Centrifuge of Friendship", desc: "Spin the ponies <b>really fast</b>.", muffins:2, cond:function() { return Math.abs(vangle)>3; } },
-    '209': { name:"Obliviate", desc: "Reset the game <b>once</b>.", muffins:1, cond:function() { return Game.resets>0; } },
-    '210': { name:"Zeeky Boogy Doog", desc: "Reset the game <b>10 times</b>.", muffins:2, cond:function() { return Game.resets>=10; } },
-    '211': { name:"September", desc: "Reset the game <b>20 times</b>.", muffins:3, cond:function() { return Game.resets>=20; } },
-    '212': { name:"Zero", desc: "Reset the game with <b>"+PrettyNumStatic(1000000000, false, 0)+" smiles</b>.", muffins:1 },
-    '213': { name:"Nada", desc: "Reset the game with <b>"+PrettyNumStatic(1000000000000, false, 0)+" smiles</b>.", muffins:2 },
-    '214': { name:"Zilch", desc: "Reset the game with <b>"+PrettyNumStatic(1000000000000000, false, 0)+" smiles</b>.", muffins:3 },
-    '215': { name:"Nil", desc: "Reset the game with <b>"+PrettyNumStatic(1000000000000000000, false, 0)+" smiles</b>.", muffins:4 },
-    '216': { name:"Null", desc: "Reset the game with <b>"+PrettyNumStatic(1000000000000000000000, false, 0)+" smiles</b>.", muffins:5 },
-    '217': { name:"Nothing", desc: "Reset the game with <b>"+PrettyNumStatic(1000000000000000000000000, false, 0)+" smiles</b>.", muffins:6 },
-    '218': { name:"Oblivion", desc: "Reset the game with <b>"+PrettyNumStatic(1000000000000000000000000000, false, 0)+" smiles</b>.", muffins:7 },
-    '219': { name:"Nevermore", desc: "Reset the game with <b>"+PrettyNumStatic(1000000000000000000000000000000, false, 0)+" smiles</b>.", muffins:8 },
+    '209': { name:"Уничтожить!", desc: "Сбросить игру <b>один раз</b>.", muffins:1, cond:function() { return Game.resets>0; } },
+    '210': { name:"Подрывник", desc: "Сбросить игру <b>10 раз</b>.", muffins:2, cond:function() { return Game.resets>=10; } },
+    '211': { name:"Сентябрь", desc: "Сбросить игру <b>20 раз</b>.", muffins:3, cond:function() { return Game.resets>=20; } },
+    '212': { name:"Ноль", desc: "Сбросить игру, имея <b>"+PrettyNumStatic(1000000000, false, 0)+" улыбок</b>.", muffins:1 },
+    '213': { name:"Пусто", desc: "Сбросить игру, имея <b>"+PrettyNumStatic(1000000000000, false, 0)+" улыбок</b>.", muffins:2 },
+    '214': { name:"Зеро", desc: "Сбросить игру, имея <b>"+PrettyNumStatic(1000000000000000, false, 0)+" улыбок</b>.", muffins:3 },
+    '215': { name:"Опять", desc: "Сбросить игру, имея <b>"+PrettyNumStatic(1000000000000000000, false, 0)+" улыбок</b>.", muffins:4 },
+    '216': { name:"Бездна", desc: "Сбросить игру, имея <b>"+PrettyNumStatic(1000000000000000000000, false, 0)+" улыбок</b>.", muffins:5 },
+    '217': { name:"Ничто", desc: "Сбросить игру, имея <b>"+PrettyNumStatic(1000000000000000000000000, false, 0)+" улыбок</b>.", muffins:6 },
+    '218': { name:"Забвение", desc: "Сбросить игру, имея <b>"+PrettyNumStatic(1000000000000000000000000000, false, 0)+" улыбок</b>.", muffins:7 },
+    '219': { name:"Дзен", desc: "Сбросить игру, имея <b>"+PrettyNumStatic(1000000000000000000000000000000, false, 0)+" улыбок</b>.", muffins:8 },
     
     //'229': { name:"Prepare For The End", desc: "Find the secret song reference.", muffins:1 },
-    '230': { name:"What Have You Done", desc: "Buy the mirror pool.", muffins:5, cond:function() { return (Game.upgradeHash['89'] !== undefined); } },
-    '231': { name:"Too Many Pinkie Pies", desc: "Pop <b>10 pinkie clones</b>.", muffins:1, cond:function() { return Game.clonespopped>=10; } },
-    '232': { name:"Look, a Birdie!", desc: "Pop <b>100 pinkie clones</b>", muffins:2, cond:function() { return Game.clonespopped>=100; } },
-    '233': { name:"Reviewing Is Magic 5", desc: "Pop <b>400 pinkie clones</b>.", muffins:3, cond:function() { return Game.clonespopped>=400; } },
-    '234': { name:"Fixer Upper", desc: "Buy all the upgrades.", muffins:1, cond:function() { return Game.upgrades.count==Object.keys(upgradeList).length; }},
+    '230': { name:"Что мы наделали?!", desc: "Купить зеркальное озеро.", muffins:5, cond:function() { return (Game.upgradeHash['89'] !== undefined); } },
+    '231': { name:"Слишком Много Пинки Пай", desc: "Лопнуть <b>10 клонов Пинки</b>.", muffins:1, cond:function() { return Game.clonespopped>=10; } },
+    '232': { name:"О, птичка!", desc: "Лопнуть <b>100 клонов Пинки</b>", muffins:2, cond:function() { return Game.clonespopped>=100; } },
+    '233': { name:"Повторы это магия — 5", desc: "Лопнуть <b>400 клонов Пинки</b>.", muffins:3, cond:function() { return Game.clonespopped>=400; } },
+    '234': { name:"Оптимизатор", desc: "Купить все улучшения.", muffins:1, cond:function() { return Game.upgrades.count==Object.keys(upgradeList).length; }},
     
-    '255': { name:"Completionist", desc: "Get all the achievements.", muffins:100}
+    '255': { name:"Комплиционист", desc: "Получить все достижения.", muffins:100}
   };
 
   function genAchievements(names, amounts, descgen, condgen) {
@@ -666,16 +726,19 @@ var ponyclicker = (function(){
   var extraAchievements = Object.keys(achievementList).length-3; // minus three because the array starts at 1 instead of 0
   var achievementCount = 3;
   var achievements_clicks = genAchievements(
-    ["That tickles!", "Tickle War", "Tickle War II: The Retickling", "This Can't Be Healthy", "Carpal Tunnel Syndrome", "Wrist In Pieces", "It's Over Nine Thousand!"],
+
+
+    ["Щекотно!", "Война щекоток", "Война щекоток II: Месть щекотки", "А это не вредно?", "Туннельный синдром", "Прощай, запястье", "It's Over Nine Thousand!"],
     [10,100,500,1000,2500,5000,9001],
-    function(n) { return "Boop a pony <b>"+PrettyNumStatic(n, false, 0)+"</b> times."; },
+    function(n) { return "Тыкнуть пони <b>"+PrettyNumStatic(n, false, 0)+"</b> раз."; },
     function(n) { return function() { return Game.clicks >= n; }; });
   achievements_clicks.push(2);
 
   var achievements_smiles = genAchievements(
-    ["Joy", "Glee", "Bliss", "Nirvana", "Ecstasy", "Pursuit of Happyness", "You Can Stop Now", "This Is Ridiculous", "Go Read A Book", "How?!"],
+
+    ["Веселье", "Забава", "Блаженство", "Нирвана", "Экстаз", "В погоне за счастьем", "Уже можно остановиться", "Это уже просто смешно", "Книжку иди почитай, что ли?", "Как?!"],
     [100,10000,1000000,100000000,10000000000,1000000000000,100000000000000,10000000000000000,1000000000000000000,100000000000000000000],
-    function(n) { return "Get <b>"+PrettyNumStatic(n, false, 0)+"</b> smiles."; },
+    function(n) { return "Получить <b>"+PrettyNumStatic(n, false, 0)+"</b> улыбок."; },
     function(n) { return function() { return Game.totalsmiles >= n; }; });
   achievements_smiles.push(206); // Add "No Booping Allowed".
 
@@ -683,41 +746,132 @@ var ponyclicker = (function(){
     return function(n) { return function() { return Game.store[item]>=n; }; };
   }
 
+
   var achievements_shop = [];
   function genShopAchievements(item, names) {
     return genAchievements(
     names,
     [1, 50, 100, 150, 200],
-    function(n) { return "Buy <b>"+Pluralize2(n, "</b> " + Store[item].name.toLowerCase(), "</b> " + Store[item].plural.toLowerCase(), false, 0) + "."; },
+    function(n) { return "Купить <b>"+Pluralize2(n, "</b> " + Store[item].name.toLowerCase(), "</b> " + Store[item].plural.toLowerCase(), false, 0) + "."; },
     genShopCond(item));
   }
 
-  achievements_shop = achievements_shop.concat(genShopAchievements(2, ["Hobbyist", "Street Musician", "Performer", "Multi-instrumentalist", "Conductor"]));
-  achievements_shop = achievements_shop.concat(genShopAchievements(3, ["Extrovert", "Socialite", "Party Cannon", "Life Of The Party", "Pinkie Pie"]));
-  achievements_shop = achievements_shop.concat(genShopAchievements(4, ["Float Attendee", "Giant Floating Rainbow Dash", "Way Too Much Confetti", "Mane Attraction", "Mayor Mare"]));
-  achievements_shop = achievements_shop.concat(genShopAchievements(5, ["Piano Solo", "String Quartet", "Chamber Choir", "70 Piece Orchestra", "Octavia"]));
-  achievements_shop = achievements_shop.concat(genShopAchievements(6, ["Summer Sun Celebration", "Running Of The Leaves", "Winter Wrap Up", "Hearth's Warming Eve", "Rite Of Spring"]));
-  achievements_shop = achievements_shop.concat(genShopAchievements(7, ["Enthusiast", "Headbanger", "Glowsticks For Everypony!", "Bass Pumper", "DJ Pon3"]));
-  achievements_shop = achievements_shop.concat(genShopAchievements(8, ["Best Night Ever", "Aristocracy", "Ballroom Dance", "YOU'RE GOING TO LOVE ME!", "Really Boring"]));
-  achievements_shop = achievements_shop.concat(genShopAchievements(9, ["Princess Twilight", "Prince Shining Armor", "Princess Big Mac", "Princess Derpy", "Everypony's a Princess!"]));
-  achievements_shop = achievements_shop.concat(genShopAchievements(10, ["Nightmare Night", "Mother's Day", "Farmer's Day", "Rainbow Dash Is Awesome Day", "National Butt Day"]));
+
+
+
+
+
+  achievements_shop = achievements_shop.concat(genShopAchievements(2, ["Любитель", "Уличный музыкант", "Исполнитель", "Мультиинструменталист", "Дирижер"]));
+  achievements_shop = achievements_shop.concat(genShopAchievements(3, ["Экстроверт", "Тусовщик", "Праздник-пушка", "Душа вечеринки", "Пинки Пай"]));
+  achievements_shop = achievements_shop.concat(genShopAchievements(4, ["Участник парада", "Надувная летающая Рейнбоу Дэш", "Слишком много конфетти", "Гвоздь программы", "Мэр Понивилля"]));
+  achievements_shop = achievements_shop.concat(genShopAchievements(5, ["Соло на пианино", "Струнный квартет", "Камерный хор", "Симфонический оркестр", "Октавия"]));
+  achievements_shop = achievements_shop.concat(genShopAchievements(6, ["Празднование дня Солнца", "Забег осенних листьев", "Последний день зимы", "День горящего очага", "Церемония встречи весны"]));
+  achievements_shop = achievements_shop.concat(genShopAchievements(7, ["Энтузиаст", "Фанат", "Всем по светящейся палочке!", "Басы на полную!", "DJ Pon3"]));
+
+
+
+  achievements_shop = achievements_shop.concat(genShopAchievements(8, ["Лучший вечер в жизни", "Аристократия", "Бальные танцы", "ВЫ МЕНЯ ПОЛЮБИТЕ!", "Довольно скучно"]));
+  achievements_shop = achievements_shop.concat(genShopAchievements(9, ["Принцесса Твайлайт", "Принц Шайнинг Армор", "Принцесса Биг Мак", "Принцесса Дерпи", "Все — принцессы!"]));
+  achievements_shop = achievements_shop.concat(genShopAchievements(10, ["Ночь кошмаров", "День матери", "День фермера", "День «Рейнбоу Дэш круче всех»", "Международный день крупа"]));
   achievements_shop = achievements_shop.concat(genAchievements(
-    ["Loyalty", "By Your Powers Combined", "Honesty", "Laughter", "Generosity", "Kindness"],
+
+    ["Верность", "Единением наших сил", "Честность", "Смех", "Щедрость", "Доброта"],
     [1, 6, 20, 40, 80, 160],
-    function(n) { return "Buy <b>"+Pluralize2(n, "</b> " + Store[11].name.toLowerCase(), "</b> " + Store[11].plural.toLowerCase(), false, 0) + "."; },
+    function(n) { return "Купить <b>"+Pluralize2(n, "</b> " + Store[11].name.toLowerCase(), "</b> " + Store[11].plural.toLowerCase(), false, 0) + "."; },
     genShopCond(11)));
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   achievements_shop = achievements_shop.concat(genAchievements(
-    ["Best Buds", "Camaraderie Crusaders", "Inner Circle", "Friend-Of-The-Month Club", "No Pony Left Behind", "Reference Chart Not Optional"],
+    ["Лучшие друзья", "Товарищи-метконосцы", "Своя компания", "Клуб друзей месяца", "Вместе веселее", "Ошибка таблицы значений"],
     [2,3,6,12,18,24],
-    function(n) { return 'Have at least <b>'+n+' ponies</b> and a completed friendship graph.'; },
+    function(n) { return 'Купить все возможные дружбы, имея хотя бы <b>'+n+' пони</b>.'; },
     function(n) { return function(){ return (Game.store[0]>=n) && (Game.store[1] >= triangular(n)); }; }
   ));
    
+
+
+
   achievements_shop.push(234); // Fixer Upper achievement
   achievements_shop.push(230); // What Have You Done
   
+
+
   achievementCount += extraAchievements; // for our special ones at the end
+
+
 
   //
   // -------------------------------- Game Management --------------------------------
@@ -726,6 +880,8 @@ var ponyclicker = (function(){
     canvas.width  = pbg.offsetWidth;
     canvas.height = pb.offsetHeight;
   }
+
+
   
   function appendStoreClick($el,index){
     $el.on('click contextmenu',function(e){
@@ -737,14 +893,44 @@ var ponyclicker = (function(){
       }
       else if (e.type === 'click') { ShowMouseText(
         (index!=1)?
-        'Too expensive!':
+
+        'Слишком дорого!':
           (NeedsMorePonies()?
-          'Not enough ponies!':
-          'Too expensive!')
+
+
+          'Нужно больше пони!':
+          'Слишком дорого!')
         ,0,-40);
       }
     });
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   function Click(id) {
       var amount = Math.floor(Game.SPC);
@@ -755,10 +941,101 @@ var ponyclicker = (function(){
       CheckAchievements(achievements_clicks);
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   function Earn(num) {
     if(num>0) { Game.totalsmiles += num; }
     Game.smiles += num;
-    $score.html(Pluralize(Game.smiles, " smile", true));
+    $score.html(Pluralize(Game.smiles, " улыбок", true));
     $stat_cursmiles.html(PrettyNum(Game.smiles, true));
     $stat_totalsmiles.html(PrettyNum(Game.totalsmiles, true));
     UpdateStore();
@@ -768,8 +1045,9 @@ var ponyclicker = (function(){
     if(Game.achievements[id] == null) {
       Game.achievements[id] = achievementList[id].muffins;
       Game.achievementcount++;
-      ShowNotice(achievementList[id].name, achievementList[id].desc, "achievement");
+      ShowNotice(achievementList[id].name, achievementList[id].desc, "достижение");
       Game.muffins += achievementList[id].muffins;
+
       updateUpgradesAchievements();
       UpdateSPS();
       UpdateOverlay(null, null);
@@ -848,7 +1126,7 @@ var ponyclicker = (function(){
       }
     }
     if(n>1)
-      ShowNotice(Store[id].name, "Purchased <b>" + numPurchase + " " + Store[id].plural + "</b> for <b>" + Pluralize(totalCost, " smile") + "</b>");
+      ShowNotice(Store[id].name, "Куплено <b>" + numPurchase + " " + Store[id].plural + "</b> за <b>" + Pluralize(totalCost, " улыбок") + "</b>");
 
     UpdateStore();
     UpdateSPS();
@@ -872,7 +1150,7 @@ var ponyclicker = (function(){
       }
     }
     if(n>1)
-      ShowNotice(Store[id].name, "Sold <b>" + numSell + " " + Store[id].plural + "</b> for <b>" + Pluralize(totalCost, " smile") + "</b>");
+      ShowNotice(Store[id].name, "Продано <b>" + numSell + " " + Store[id].plural + "</b> за <b>" + Pluralize(totalCost, " улыбок") + "</b>");
     if(numSell>0 && id==1)
       EarnAchievement(205);
     UpdateStore();
@@ -902,7 +1180,7 @@ var ponyclicker = (function(){
       apocalypseTime = new Date().getTime();
       $('#apocalypse')[0].style.opacity = 1;
       $('#mandatory-fun')[0].href = 'https://www.youtube.com/watch?v=19G0I7xHQBM';
-      $('#mandatory-fun').html('The end is nigh.');
+      $('#mandatory-fun').html('Конец близок.');
       pinkie_freelist = [];
       if(Game.pinkies.length == 0) {
         Game.pinkies = [];
@@ -922,7 +1200,7 @@ var ponyclicker = (function(){
     apocalypseTime = -1;
     $('#apocalypse')[0].style.opacity = 0;
     $('#mandatory-fun')[0].href = 'https://www.youtube.com/watch?v=otAFRGL4yX4';
-    $('#mandatory-fun').html('The smile song is mandatory while playing this.');
+    $('#mandatory-fun').html('Обязательно к прослушиванию во время игры.');
   }
   
   function SpawnPinkie(id) {
@@ -972,8 +1250,8 @@ var ponyclicker = (function(){
           .addClass('menutooltip').css('left',-2-((iterator%5)*54))
           .html(
             !upgrade
-            ?'<strong>'+dynFontSize(achievementList[prop].name)+'</strong><i>[achievement]</i><hr><p>'+achievementList[prop].desc+'</p>'
-            :'<strong>'+dynFontSize(upgradeList[prop].name)+'</strong><i>[upgrade]</i><hr><p>'+upgradeList[prop].desc+'</p>'
+            ?'<strong>'+dynFontSize(achievementList[prop].name)+'</strong><i>[достижение]</i><hr><p>'+achievementList[prop].desc+'</p>'
+            :'<strong>'+dynFontSize(upgradeList[prop].name)+'</strong><i>[улучшение]</i><hr><p>'+upgradeList[prop].desc+'</p>'
           )
           .appendTo($ach);
         if(!upgrade) $(document.createElement('div')).addClass('muffin').html('+' + achievementList[prop].muffins).appendTo($ach);
@@ -1001,6 +1279,7 @@ var ponyclicker = (function(){
   function NeedsMorePonies() {
     return Game.store[1] >= triangular(Game.store[0]);
   }
+
   // https://stackoverflow.com/a/16436975/1344955
   function arraysEqual(a, b) {
     if (a === b) return true;
@@ -1037,7 +1316,7 @@ var ponyclicker = (function(){
       }
     }
     
-    $ponycost.html("(NEEDS " + Math.ceil(inv_triangular(Game.store[1]+1)) + " PONIES)").hide();
+    $ponycost.html("(НУЖНО " + Math.ceil(inv_triangular(Game.store[1]+1)) + " ПОНИ)").hide();
     for(var i = 0; i < Store.length; ++i) {
       var item = Store[i],
           count = Game.store[i],
@@ -1062,6 +1341,8 @@ var ponyclicker = (function(){
     curUpgradeList.length = 0; // We don't do = [] here because this may be referenced elsewhere
     scopeUpgradeList.length = 0; // we mark whether or not something is disabled by negating it's ID, but we can't put negatives in curUpgradeList.
 
+
+
     for(var i in upgradeList) {
       if(upgradeList[i].cond() && Game.upgradeHash[i] == null) {
         var hide = upgradeList[i].cost>Game.smiles;
@@ -1083,6 +1364,8 @@ var ponyclicker = (function(){
   
         achs.push($ach);
       }
+
+
       $storeupgrades.empty().append(achs);
       var save = lastUpgrade; // save the lastUpgrade list
       lastUpgrade = scopeUpgradeList;
@@ -1090,6 +1373,7 @@ var ponyclicker = (function(){
     }
     $stat_buildings.html(CountBuildings(Game.store).toFixed(0));
   }
+
   function UpdateSPS() {
     Game.SPS = CalcSPS(Game.store, Game.upgrades, true);
     $stat_SPC.html(PrettyNum(Math.floor(Game.SPC)));
@@ -1097,9 +1381,9 @@ var ponyclicker = (function(){
       var wither = (apocalypseTime < 0)?0:(1-Math.pow(1-PINKIE_WITHER, Game.pinkies.length - pinkie_freelist.length));
       if(wither > 0) {
         var nsps = (1-wither)*Game.SPS;
-        $SPS.html("+" + ((nsps<=999)?nsps.toFixed(1):PrettyNum(nsps)) + ' per second <span style="color:#900">(-'+(wither*100).toFixed(1)+'% lost)</span>').show();
+        $SPS.html("+" + ((nsps<=999)?nsps.toFixed(1):PrettyNum(nsps)) + ' в секунду <span style="color:#900">(-'+(wither*100).toFixed(1)+'%)</span>').show();
       } else {
-        $SPS.html("+" + ((Game.SPS<=999)?Game.SPS.toFixed(1):PrettyNum(Game.SPS)) + " per second").show();
+        $SPS.html("+" + ((Game.SPS<=999)?Game.SPS.toFixed(1):PrettyNum(Game.SPS)) + " в секунду").show();
       }
     }
     else $SPS.hide();
@@ -1222,7 +1506,7 @@ var ponyclicker = (function(){
 
   function CalcTimeItem(item) {
     var time = Math.ceil((Store[item].cost(Game.store[item]) - Game.smiles) / Game.SPS);
-    return (time <= 0)?'<b>now</b>':('in <b>' + PrintTime(time)+'</b>');
+    return (time <= 0)?'<b>прямо сейчас</b>':('через <b>' + PrintTime(time)+'</b>');
   }
   
   var updateoverlay_nstore = []; // Because chrome doesn't know how to clean up after itself
@@ -1247,29 +1531,31 @@ var ponyclicker = (function(){
             .addClass('title')
             .append('<p>'+x.name+'</p><span>'+smilethumb+PrettyNum(xcost)+'</span>');
   
-      if(xcount > 0) $title.append('<div>['+PrettyNum(xcount)+' owned]</div>');
+      if(xcount > 0) $title.append('<div>['+PrettyNum(xcount)+' куплено]</div>');
       $overlay.empty().append($title, '<hr><p>'+x.desc+'</p>');//<ul>
       var $ul = $(document.createElement('ul'));
   
       if(x.formula) $ul.append('<li class="formula">'+x.formula+'</li>');
-      if(x.SPS_cache > 0 || item==1) $ul.append('<li>Each '+x.name.toLowerCase()+' generates <b>'+Pluralize(x.SPS_cache, ' smile')+'</b> per second</li>');
-      if(xcount > 0 && x.SPS_cache > 0) $ul.append('<li><b>'+PrettyNum(xcount)+'</b> '+x.plural.toLowerCase()+' generating <b>'+Pluralize(xcount*x.SPS_cache, ' smile')+'</b> per second</li>');
+      if(x.SPS_cache > 0 || item==1) $ul.append('<li>1 '+x.name.toLowerCase()+' генерирует <b>'+Pluralize(x.SPS_cache, ' улыбок')+'</b> в секунду</li>');
+      if(xcount > 0 && x.SPS_cache > 0) $ul.append('<li><b>'+PrettyNum(xcount)+'</b> '+x.plural.toLowerCase()+' генерируют <b>'+Pluralize(xcount*x.SPS_cache, ' улыбок')+'</b> в секунду</li>');
       var lowerbound = Game.SPS/140737488355328; // this is Game.SPS / 2^47, which gives us about 5 bits of meaningful precision before the double falls apart.
       for(var i = 0; i < Store.length; ++i) { updateoverlay_nstore[i] = 0+Game.store[i]; } //ensure javascript isn't passing references around for some insane reason
+
 
       updateoverlay_nstore[item]+=1;
       var nSPS = CalcSPS(updateoverlay_nstore, Game.upgrades, false),
           sps_increase = nSPS - Game.SPS,
           payPerSmile = xcost/(nSPS - Game.SPS),
-          increaseText = sps_increase > 0 ? 'will increase your SPS by <b>'+(sps_increase > lowerbound ? PrettyNum(sps_increase) : 'almost nothing')+'</b>' : "<b>won't</b> increase your SPS",
-          payPerSmileText = isFinite(payPerSmile) ? '<i>You pay <b>'+(sps_increase > lowerbound ? Pluralize(payPerSmile, ' smile') : 'way too many smiles') + '</b> per +1 SPS</i>' : '';
+
+          increaseText = sps_increase > 0 ? 'увеличит генерацию улыбок в секунду на <b>'+(sps_increase > lowerbound ? PrettyNum(sps_increase) : 'совсем чуть-чуть')+'</b>' : "<b>НЕ</b> увеличит генерацию улыбок в секунду",
+          payPerSmileText = isFinite(payPerSmile) ? '<i>Вы заплатите <b>'+(sps_increase > lowerbound ? Pluralize(payPerSmile, ' улыбок') : 'очень много') + '</b> за +1 улыбок в секунду</i>' : '';
   
-      $ul.append('<li>Buying one '+x.name.toLowerCase()+' '+increaseText+payPerSmileText+'</li>');
-      if(xcost>Game.smiles && Game.SPS > 0) $ul.append('<li>This can be purchased <span id="overlaytime" data-item="'+item+'">' + CalcTimeItem(item) + '</span></li>');
+      $ul.append('<li>Еще 1 '+x.name.toLowerCase()+' '+increaseText+payPerSmileText+'</li>');
+      if(xcost>Game.smiles && Game.SPS > 0) $ul.append('<li>Можно купить <span id="overlaytime" data-item="'+item+'">' + CalcTimeItem(item) + '</span></li>');
       
       // Display buy/sell information
-      var helpStr = '<li><kbd>Shift + Click</kbd> to buy 10';
-      if (xcount > 0 && item>0) helpStr += ', <kbd>Right click</kbd> to sell 1'; // you can't sell ponies
+      var helpStr = '<li><kbd>Shift + клик</kbd> — купить 10';
+      if (xcount > 0 && item>0) helpStr += ', <kbd>Правый клик</kbd> — продать 1'; // you can't sell ponies
       $ul.append(helpStr+'</li>');
       
       $overlay.append('<hr>',$ul).show();
@@ -1311,7 +1597,44 @@ var ponyclicker = (function(){
   var PINKIE_WITHER = 0.01;
   function ProcessSPS(delta) {
     var SPS = Game.SPS*(delta/1000.0);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
+
+
+
+
+
+
+
+
+
+
+
     if(apocalypseTime > 0) {
       for(var i = 0; i < Game.pinkies.length; ++i) {
         if(Game.pinkies[i] >= 0) {
@@ -1319,9 +1642,28 @@ var ponyclicker = (function(){
           Game.pinkies[i] += absorb*1.1;
           SPS -= absorb;
         } 
+
+
+
+
+
+
+
+
+
       }
+
+
+
+
+
+
     }
     
+
+
+
+
     Earn(SPS);
   }
   function distance(x1,y1,x2,y2) {
@@ -1432,6 +1774,7 @@ var ponyclicker = (function(){
   function aniEndFunc() {
     $(this).remove();
   }
+
   function ShowMouseText(text,x,y) {
       $(document.createElement('div'))
         .addClass('mousetext')
@@ -1443,6 +1786,7 @@ var ponyclicker = (function(){
         .on('webkitAnimationEnd animationend',aniEndFunc)
         .appendTo($mousetexts);
   }
+
   function ShowNotice(title, desc, flavor) {
     var $div = $(document.createElement('div'))
       .html('<strong>'+title+'</strong>'+(flavor!=null?'<i>['+flavor+']</i>':'') + (desc!=null?'<hr><p>'+desc+'</p>':''))
@@ -1618,7 +1962,8 @@ var ponyclicker = (function(){
     EarnAchievement(203);
   });
   $('#wipeall').on('click',function(){
-    if (window.confirm('This will irreversibly wipe ALL your data, including all settings and all achievements! Are you certain you want to do this?'))
+
+    if (window.confirm('Вы потеряете все игровые данные, в том числе настройки и достижения. Вы уверены?'))
       WipeAllData();
   });
 
@@ -1631,11 +1976,12 @@ var ponyclicker = (function(){
     $exportWindow.show();
   });
   $('#importbtn').on('click',function(){
-    var x = window.prompt('Paste your exported game data here to import it. WARNING: This will overwrite your current game, even if the data is corrupt! Be sure you export your current game if you don\'t want to lose anything!');
+
+    var x = window.prompt('Скопируйте сюда экспортированное сохранение. ВНИМАНИЕ: Текущая игра будет перезаписана, даже если сохранение повреждено! На всякий случай экспортируйте текущую игру.');
     if(x!==null) ImportGame(x);
   });
   $('#resetbtn').on('click',function(){
-    if(window.confirm("This will delete all your smiles, buildings, and upgrades, but you'll keep you're achievements, muffins, and any cupcakes you earned from previous resets. Are you sure you want to do this?")) { 
+    if(window.confirm("Вы потеряете все улыбки, здания и улучшения, но у вас останутся достижения и маффины, заработанные в предыдущих играх. Вы уверены, что хотите сбросить игру?")) { 
       ResetGame(); 
     }
   });
@@ -1689,6 +2035,7 @@ var ponyclicker = (function(){
   });
   $('#ponyboard').on('touchmove', function(event){ event.preventDefault(); fnmousemove(event.originalEvent.targetTouches[0]);});
   
+
   $w.on('resize',ResizeCanvas);
   $w.on('load',function(){ // doOnLoad equivalent
     $doc
@@ -1714,6 +2061,7 @@ var ponyclicker = (function(){
     $loadscreen.css('opacity',0).delay(700).hide();
     CheckForUpdates();
   });
+
   
   public_members.Game = Game;
   return public_members;
