@@ -89,7 +89,7 @@ body {
   text-align: center;
 }
 .newsactive p:before {
-  content: "News: ";
+  content: "Новости: ";
 }
 
 #score {
